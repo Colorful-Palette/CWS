@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <System:String x:Key="Lang_Nav_General">General</System:String>
+    <System:String x:Key="Lang_Nav_PPT">PPT Optimization</System:String>
+    <System:String x:Key="Lang_Nav_About">About</System:String>
+
+    <System:String x:Key="Lang_Card_BgTitle">Custom Background</System:String>
+    <System:String x:Key="Lang_Card_BgOpacity">Background Opacity</System:String>
+    <System:String x:Key="Lang_Btn_Browse">Browse Image...</System:String>
+    <System:String x:Key="Lang_Btn_Clear">Clear Background</System:String>
+
+    <System:String x:Key="Lang_Card_StartupTitle">System Startup</System:String>
+    <System:String x:Key="Lang_Card_StartupDesc">Run CWS automatically on Windows login</System:String>
+    <System:String x:Key="Lang_Card_MonitorTitle">Smart Monitor</System:String>
+    <System:String x:Key="Lang_Card_MonitorDesc">Auto-fix service when PowerPoint is detected</System:String>
+
+    <System:String x:Key="Lang_Label_QuickFix">Quick Fix</System:String>
+    <System:String x:Key="Lang_Btn_CleanWPS">Clean WPS Residue</System:String>
+    <System:String x:Key="Lang_Btn_RestartPPT">Restart PPT Service</System:String>
+    <System:String x:Key="Lang_Btn_Floating">Switch to Floating Ball</System:String>
+
+    <System:String x:Key="Lang_Card_AssocTitle">File Association</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">Switch open methods for PPT related formats</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">Associate with PowerPoint</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">Associate with WPS</System:String>
+
+    <System:String x:Key="Lang_Btn_RestartExplorer">Refresh Icons (Restart Explorer)</System:String>
+    <System:String x:Key="Lang_Btn_CleanCache">Clear Icon Cache</System:String>
+    <System:String x:Key="Lang_Status_RestartingExp">Restarting Explorer to refresh icons...</System:String>
+    <System:String x:Key="Lang_Status_RestartDone">Explorer restarted. Icons should be updated.</System:String>
+    <System:String x:Key="Lang_Tip_IconFix">* Tip: If icons don't refresh after switching, click "Clear Icon Cache".</System:String>
+    <System:String x:Key="Lang_Status_CleaningCache">Clearing icon cache and restarting Explorer...</System:String>
+    <System:String x:Key="Lang_Status_CleanDone">Done! Icon database has been rebuilt.</System:String> 
+
+    <System:String x:Key="Lang_About_Desc">A tool focused on resolving Office and WPS conflicts.</System:String>
+    <System:String x:Key="Lang_About_License">MIT License</System:String>
+    <System:String x:Key="Lang_About_Author">NekoCat</System:String>
+    <System:String x:Key="Lang_Status_Default">BanG Dream! It's MyGO!!!!!</System:String>
+
+    <System:String x:Key="Lang_Menu_ShowMain">Show Main Window</System:String>
+    <System:String x:Key="Lang_Menu_AutoStart">Run at Startup</System:String>
+    <System:String x:Key="Lang_Menu_PPTSwitch">PPT Association</System:String>
+    <System:String x:Key="Lang_Menu_SetWPS">Set to WPS</System:String>
+    <System:String x:Key="Lang_Menu_SetOffice">Set to Office</System:String>
+    <System:String x:Key="Lang_Menu_Exit">Exit</System:String>
+    
+    <System:String x:Key="Lang_BgEdit_Title">Adjust Background Area</System:String>
+    <System:String x:Key="Lang_BgEdit_Tip">💡 Drag to pan, scroll to zoom</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnReset">Reset</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnCancel">Cancel</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnConfirm">Apply</System:String>
+</ResourceDictionary>

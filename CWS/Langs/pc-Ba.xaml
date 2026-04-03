@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <System:String x:Key="Lang_Nav_General">[!!!Géñéräì Sèttìñgs!!!]</System:String>
+    <System:String x:Key="Lang_Nav_PPT">[!!!PPT Öþţìmìzé!!!]</System:String>
+    <System:String x:Key="Lang_Nav_About">[!!!Äböûţ!!!]</System:String>
+
+    <System:String x:Key="Lang_Card_BgTitle">[!!!Çûšþömìžé Bäçkgröûñð Þìçþûré!!!]</System:String>
+    <System:String x:Key="Lang_Card_BgOpacity">[!!!Bäçkgröûñð Þŕäñšþäŕéñçÿ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_Browse">[!!!Bŕöwšé Þìçþûré...!!!]</System:String>
+    <System:String x:Key="Lang_Btn_Clear">[!!!Çléäñ Bäçkgröûñð!!!]</System:String>
+
+    <System:String x:Key="Lang_Card_StartupTitle">[!!!Šÿšþém Šþäŕþûþ!!!]</System:String>
+    <System:String x:Key="Lang_Card_StartupDesc">[!!!Ŕûñ CWS äûþömäþìçäììÿ äþ Windows löğìñ!!!]</System:String>
+    <System:String x:Key="Lang_Card_MonitorTitle">[!!!ÞÞÞ Ìñþéìììğéñþ möñìþöŕìñğ!!!]</System:String>
+    <System:String x:Key="Lang_Card_MonitorDesc">[!!!Äûþömäþìç Ŕéþäìŕ Šéŕvìçé whéñ ÞöwéŕÞöìñþ Öþéñš!!!]</System:String>
+
+    <System:String x:Key="Lang_Label_QuickFix">[!!!Qûìçk Fìx!!!]</System:String>
+    <System:String x:Key="Lang_Btn_CleanWPS">[!!!Çléäñ WÞŠ Ŕéšìðûé!!!]</System:String>
+    <System:String x:Key="Lang_Btn_RestartPPT">[!!!Ŕéšþäŕþ PPTService!!!]</System:String>
+    <System:String x:Key="Lang_Btn_Floating">[!!!Šwìþçh tö ßïöäþìñğ ßäìì!!!]</System:String>
+
+    <System:String x:Key="Lang_Card_AssocTitle">[!!!Fììé Äššöçìäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">[!!!Šwìþçh þhé wäÿ ÞÞÞ ßöŕmäþ äŕé öþéñéð!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">[!!!Šéþ PowerPoint!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">[!!!Šéþ WPS!!!]</System:String>
+
+    <System:String x:Key="Lang_Btn_RestartExplorer">[!!!Ŕéƒŕéšh Ìçöñš (Ŕéšþäŕþ Éxþlöŕéŕ)!!!]</System:String>
+    <System:String x:Key="Lang_Btn_CleanCache">[!!!Çléäŕ Ìçöñ Çäçhé!!!]</System:String>
+    <System:String x:Key="Lang_Status_RestartingExp">[!!!Ŕéšþäŕþìñğ Éxþlöŕéŕ tö ŕéƒŕéšh ìçöñš...!!!]</System:String>
+    <System:String x:Key="Lang_Status_RestartDone">[!!!Éxþlöŕéŕ ŕéšþäŕþéð. Ìçöñš šhöûìð ßé ûþðäþéð.!!!]</System:String>
+    <System:String x:Key="Lang_Tip_IconFix">[!!!* Þìþ: Ìƒ ìçöñš ðöñ'þ ŕéƒŕéšh, çììçk "Çléäŕ Ìçöñ Çäçhé".!!!]</System:String>
+    <System:String x:Key="Lang_Status_CleaningCache">[!!!Çléäŕìñğ ìçöñ çäçhé äñð ŕéšþäŕþìñğ Éxþlöŕéŕ...!!!]</System:String>
+    <System:String x:Key="Lang_Status_CleanDone">[!!!Ööñé! Ìçöñ ðäþäßäšé häš ßééñ ŕéßûììþ.!!!]</System:String> 
+
+    <System:String x:Key="Lang_About_Desc">喵喵喵 (Mìäö Mìäö Mìäö)</System:String>
+    <System:String x:Key="Lang_About_License">MIT License</System:String>
+    <System:String x:Key="Lang_About_Author">NekoCat Pseudo Translated by YL2263_VTRUI</System:String>
+    <System:String x:Key="Lang_Status_Default">[!!!ßäñG Öŕéämä! Ìþ'š MÿGÖ!!!!!!!!]</System:String>
+
+    <System:String x:Key="Lang_Menu_ShowMain">[!!!Šhöw Mäìñ Wìñðöw!!!]</System:String>
+    <System:String x:Key="Lang_Menu_AutoStart">[!!!Ŕûñ äþ Šþäŕþûþ!!!]</System:String>
+    <System:String x:Key="Lang_Menu_PPTSwitch">[!!!ÞÞÞ Äššöçìäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Menu_SetWPS">[!!!Šéþ þö WÞŠ!!!]</System:String>
+    <System:String x:Key="Lang_Menu_SetOffice">[!!!Šéþ þö Öƒƒìçé!!!]</System:String>
+    <System:String x:Key="Lang_Menu_Exit">[!!!Éxìþ!!!]</System:String>
+    
+    <System:String x:Key="Lang_BgEdit_Title">[!!!Äðjûšþ Bäçkgröûñð Äŕéä!!!]</System:String>
+    <System:String x:Key="Lang_BgEdit_Tip">[!!!💡 Öŕäğ tö þäñ, šçŕöìì tö žööm!!!]</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnReset">[!!!Ŕéšéþ!!!]</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnCancel">[!!!Çäñçéì!!!]</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnConfirm">[!!!Äþþìÿ!!!]</System:String>
+</ResourceDictionary>

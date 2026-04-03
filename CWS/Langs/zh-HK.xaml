@@ -1,0 +1,47 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <System:String x:Key="Lang_Nav_General">一般設定</System:String>
+    <System:String x:Key="Lang_Nav_PPT">PPT 優化</System:String>
+    <System:String x:Key="Lang_Nav_About">關於</System:String>
+    <System:String x:Key="Lang_Card_BgTitle">自定義背景圖片</System:String>
+    <System:String x:Key="Lang_Card_BgOpacity">背景圖透明度</System:String>
+    <System:String x:Key="Lang_Btn_Browse">搵張相...</System:String>
+    <System:String x:Key="Lang_Btn_Clear">清除背景</System:String>
+    <System:String x:Key="Lang_Card_StartupTitle">開機啟動</System:String>
+    <System:String x:Key="Lang_Card_StartupDesc">登入 Windows 嗰陣自動執行 CWS</System:String>
+    <System:String x:Key="Lang_Card_MonitorTitle">PPT 智能監控</System:String>
+    <System:String x:Key="Lang_Card_MonitorDesc">一偵測到 PowerPoint 啟動就自動修復服務</System:String>
+    <System:String x:Key="Lang_Label_QuickFix">快速修復</System:String>
+    <System:String x:Key="Lang_Btn_CleanWPS">清理 WPS 殘留檔案</System:String>
+    <System:String x:Key="Lang_Btn_RestartPPT">重啟 PPTService</System:String>
+    <System:String x:Key="Lang_Btn_Floating">切換到粒懸浮波</System:String>
+    <System:String x:Key="Lang_Card_AssocTitle">文件關聯設定</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">切換 PPT 相關格式嘅開啟方式</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">關聯去 PowerPoint</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">關聯去 WPS</System:String>
+    <System:String x:Key="Lang_Btn_RestartExplorer">重新整理 Icon (重啟資源管理器)</System:String>
+    <System:String x:Key="Lang_Btn_CleanCache">清除 Icon Cache</System:String>
+    <System:String x:Key="Lang_Status_RestartingExp">正喺度重啟資源管理器嚟 Refresh 啲 Icon...</System:String>
+    <System:String x:Key="Lang_Status_RestartDone">資源管理器重啟咗喇，啲 Icon 應該更新晒。</System:String>
+    <System:String x:Key="Lang_Tip_IconFix">* 提示：如果改咗關聯但係 Icon 無變，請試下「清除 Icon Cache」。</System:String>
+    <System:String x:Key="Lang_Status_CleaningCache">正喺度清緊 Icon Cache 同重啟資源管理器...</System:String>
+    <System:String x:Key="Lang_Status_CleanDone">清完喇！系統已經重新整過晒啲 Icon 數據庫。</System:String> 
+    <System:String x:Key="Lang_About_Desc">呢個係一個專門搞掂 Office 同 WPS 撞車嘅架生。</System:String>
+    <System:String x:Key="Lang_About_License">MIT License</System:String>
+    <System:String x:Key="Lang_About_Author">NekoCat</System:String>
+    <System:String x:Key="Lang_Status_Default">BanG Dream! It's MyGO!!!!!</System:String>
+
+    <System:String x:Key="Lang_Menu_ShowMain">顯示主介面</System:String>
+    <System:String x:Key="Lang_Menu_AutoStart">開機自啟動</System:String>
+    <System:String x:Key="Lang_Menu_PPTSwitch">PPT 關聯切換</System:String>
+    <System:String x:Key="Lang_Menu_SetWPS">設為以 WPS 開啟</System:String>
+    <System:String x:Key="Lang_Menu_SetOffice">設為以 Office 開啟</System:String>
+    <System:String x:Key="Lang_Menu_Exit">結束程式</System:String>
+    
+    <System:String x:Key="Lang_BgEdit_Title">調整背景展示區域</System:String>
+    <System:String x:Key="Lang_BgEdit_Tip">💡 撳住滑鼠嚟平移，轆個輪嚟縮放</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnReset">重設</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnCancel">唔要喇</System:String>
+    <System:String x:Key="Lang_BgEdit_BtnConfirm">確定套用</System:String>
+</ResourceDictionary>

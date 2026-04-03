@@ -1,0 +1,95 @@
+<Window x:Class="CWS.BgEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Lang_BgEdit_Title}" 
+        Height="550" Width="800"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#1A3A5A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="btnBorder" Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="btnBorder" Property="Background" Value="#00BCF2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#0A1628" CornerRadius="15" BorderBrush="#1A3A5A" BorderThickness="1.5" Margin="20">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{DynamicResource Lang_BgEdit_Title}" 
+                       Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+            <Border Grid.Row="1" x:Name="ViewportBorder" Background="Black" CornerRadius="8" 
+                    BorderBrush="#3300BCF2" BorderThickness="2"
+                    Width="600" Height="360" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    ClipToBounds="True">
+
+                <Grid x:Name="ImageContainer" Background="Transparent"
+                      MouseLeftButtonDown="ImageContainer_MouseLeftButtonDown"
+                      MouseMove="ImageContainer_MouseMove"
+                      MouseLeftButtonUp="ImageContainer_MouseLeftButtonUp"
+                      MouseWheel="ImageContainer_MouseWheel"
+                      Cursor="SizeAll">
+
+                    <Image x:Name="TargetImage" Stretch="Uniform" 
+                           RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="imgScale" ScaleX="1" ScaleY="1"/>
+                                <TranslateTransform x:Name="imgTranslate" X="0" Y="0"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,15">
+                <TextBlock Foreground="#8899AA" FontSize="12" VerticalAlignment="Center"
+                           ><Run Text="💡 鼠标拖动平移，滚轮缩放"/><Run Language="zh-cn" Text=" "/></TextBlock>
+                <Button Content="{DynamicResource Lang_BgEdit_BtnReset}" 
+                        Height="20" 
+                        Click="btnReset_Click" 
+                        Background="#221A3A5A" 
+                        Padding="10,0" FontSize="11" Width="34"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="btnCancel" 
+                        Content="{DynamicResource Lang_BgEdit_BtnCancel}" 
+                        Width="80" Margin="0,0,10,0" 
+                        Click="btnCancel_Click"
+                        Background="#33FF4B4B"/>
+
+                <Button x:Name="btnConfirm" 
+                        Content="{DynamicResource Lang_BgEdit_BtnConfirm}" 
+                        Width="100" 
+                        Click="btnConfirm_Click"
+                        Background="#CC00BCF2"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

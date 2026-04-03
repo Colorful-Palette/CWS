@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <System:String x:Key="Lang_Nav_General">常规设置</System:String>
+    <System:String x:Key="Lang_Nav_PPT">PPT 优化</System:String>
+    <System:String x:Key="Lang_Nav_About">关于</System:String>
+    <System:String x:Key="Lang_Card_BgTitle">自定义背景图片</System:String>
+    <System:String x:Key="Lang_Card_BgOpacity">背景图透明度</System:String>
+    <System:String x:Key="Lang_Btn_Browse">浏览图片...</System:String>
+    <System:String x:Key="Lang_Btn_Clear">清除背景</System:String>
+    <System:String x:Key="Lang_Card_StartupTitle">系统启动</System:String>
+    <System:String x:Key="Lang_Card_StartupDesc">在 Windows 登录时自动运行 CWS</System:String>
+    <System:String x:Key="Lang_Card_MonitorTitle">PPT 智能监控</System:String>
+    <System:String x:Key="Lang_Card_MonitorDesc">检测到 PowerPoint 打开时自动修复服务</System:String>
+    <System:String x:Key="Lang_Label_QuickFix">快速修复</System:String>
+    <System:String x:Key="Lang_Btn_CleanWPS">清理 WPS 残留</System:String>
+    <System:String x:Key="Lang_Btn_RestartPPT">重启 PPTService</System:String>
+    <System:String x:Key="Lang_Btn_Floating">切换至悬浮球</System:String>
+    <System:String x:Key="Lang_Card_AssocTitle">文件关联</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">切换PPT相关格式的打开方式</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">关联为 PowerPoint</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">关联为 WPS</System:String>
+    <System:String x:Key="Lang_Btn_RestartExplorer">刷新图标 (重启资源管理器)</System:String>
+    <System:String x:Key="Lang_Btn_CleanCache">清除图标缓存</System:String>
+    <System:String x:Key="Lang_Status_RestartingExp">正在重启资源管理器以刷新图标...</System:String>
+    <System:String x:Key="Lang_Status_RestartDone">资源管理器已重启，图标应已更新。</System:String>
+    <System:String x:Key="Lang_Tip_IconFix">* 提示：如果切换关联后图标未刷新，请点击“清除图标缓存”。</System:String>
+    <System:String x:Key="Lang_Status_CleaningCache">正在清理图标缓存并重启资源管理器...</System:String>
+    <System:String x:Key="Lang_Status_CleanDone">清理完成！系统已重新建立图标数据库。</System:String> 
+    <System:String x:Key="Lang_About_Desc">这是一个专注于解决 Office 与 WPS 冲突的工具。</System:String>
+    <System:String x:Key="Lang_About_License">MIT License</System:String> <System:String x:Key="Lang_About_Author">NekoCat</System:String>
+    <System:String x:Key="Lang_Status_Default">BanG Dream It's MyGO!!!!!</System:String>
+
+    <System:String x:Key="Lang_Menu_ShowMain">显示主界面</System:String>
+	<System:String x:Key="Lang_Menu_AutoStart">开机自启动</System:String>
+	<System:String x:Key="Lang_Menu_PPTSwitch">PPT 关联切换</System:String>
+	<System:String x:Key="Lang_Menu_SetWPS">设为 WPS 打开</System:String>
+	<System:String x:Key="Lang_Menu_SetOffice">设为 Office 打开</System:String>
+	<System:String x:Key="Lang_Menu_Exit">退出程序</System:String>
+	
+	<System:String x:Key="Lang_BgEdit_Title">调整背景展示区域</System:String>
+	<System:String x:Key="Lang_BgEdit_Tip">💡 鼠标拖动平移，滚轮缩放</System:String>
+	<System:String x:Key="Lang_BgEdit_BtnReset">重置</System:String>
+	<System:String x:Key="Lang_BgEdit_BtnCancel">取消</System:String>
+	<System:String x:Key="Lang_BgEdit_BtnConfirm">确定应用</System:String>
+</ResourceDictionary>
