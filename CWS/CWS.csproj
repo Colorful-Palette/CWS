@@ -1,13 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
+		<TargetPlatformControls>true</TargetPlatformControls>
+		<AssemblyName>CWS</AssemblyName>
+  	    <ApplicationIcon>icon.ico</ApplicationIcon>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<None Remove="SetUserFTA.exe" />
 	</ItemGroup>
@@ -39,9 +42,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="SetUserFTA.exe">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</EmbeddedResource>
+		<Content Include="SetUserFTA.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
