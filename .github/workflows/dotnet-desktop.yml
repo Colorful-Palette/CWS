@@ -37,7 +37,7 @@ jobs:
           cache: false
 
       - name: Restore Dependencies
-        run: dotnet restore "CWS.sln"
+        run: dotnet restore "FirstMain.slnx"
       
       - name: Build CWS Project (Debug)
         run: |
