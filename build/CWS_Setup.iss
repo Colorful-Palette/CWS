@@ -14,7 +14,6 @@ UninstallDisplayIcon={app}\{#MyAppExeName}
 ChangesAssociations=no
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=../LICENSE
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=.
 OutputBaseFilename=CWS_Setup
