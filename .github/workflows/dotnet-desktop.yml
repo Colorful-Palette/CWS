@@ -1,0 +1,84 @@
+name: CWS .NET Build & Check
+
+on:
+  push:
+    branches: [ main, dev ] # 當 main 或 dev 分支有變動時觸發
+  workflow_dispatch: # 支援手動觸發測試
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build CWS
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [AnyCPU, x86]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+      
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          cache: true
+
+      - name: Restore Dependencies
+        run: dotnet restore "CWS.sln"
+      
+      - name: Build CWS Project (Debug)
+        run: |
+          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Debug" ".CWS/CWS/CWS.csproj" /m /verbosity:minimal
+
+      - name: Check Build Output
+        id: check-exe
+        run: |
+          # 根據架構定位編譯出的執行檔
+          $exePath = ".CWS/CWS/bin/Debug/net8.0-windows/${{ matrix.architecture }}/CWS.exe"
+          if (!(Test-Path $exePath)) {
+            # 嘗試根目錄路徑（視乎您的輸出路徑配置）
+            $exePath = ".CWS/CWS/bin/${{ matrix.architecture }}/Debug/net8.0-windows/CWS.exe"
+          }
+          
+          if (Test-Path $exePath) {
+            echo "build_success=true" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "build_success=false" >> $env:GITHUB_OUTPUT
+            exit 1
+          }
+
+      - name: Upload Debug Artifact
+        if: steps.check-exe.outputs.build_success == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: CWS-Debug-${{ matrix.architecture }}-${{ github.run_number }}
+          path: ".CWS/CWS/bin/**/Debug/net8.0-windows/*"
+
+      - name: Generate Build Summary
+        if: always()
+        shell: bash
+        run: |
+          echo "# 🛠️ CWS 構建摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check-exe.outputs.build_success }}" = "true" ]; then
+            echo "### ✅ 編譯成功" >> $GITHUB_STEP_SUMMARY
+            echo "- **架構**: ${{ matrix.architecture }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **提交代碼**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **流水線編號**: #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ 編譯失敗" >> $GITHUB_STEP_SUMMARY
+            echo "請檢查 MSBuild 記錄以獲取詳細錯誤信息。" >> $GITHUB_STEP_SUMMARY
+          fi
+
