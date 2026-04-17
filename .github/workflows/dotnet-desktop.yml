@@ -33,7 +33,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.25'
+          dotnet-version: '8.0.419'
           cache: false
 
       - name: Restore Dependencies
