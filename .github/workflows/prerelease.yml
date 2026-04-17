@@ -58,12 +58,14 @@ jobs:
         run: |
           if ("${{ github.event_name }}" -eq "push") {
             $tagName = "${{ github.ref }}".Replace("refs/tags/", "")
+            $cleanVersion = $tagName.TrimStart('v')
+            
             echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
-            echo "version=$tagName" >> $env:GITHUB_OUTPUT
+            echo "version=$cleanVersion" >> $env:GITHUB_OUTPUT
           } else {
             $currentVersion = "${{ steps.get_version.outputs.current_version }}"
-            $v = [version]$currentVersion
-            $major, $minor, $patch, $build = $v.Major, $v.Minor, $v.Build, $v.Revision
+            $cleanCurrentVersion = $currentVersion.TrimStart('v')
+            $versionParts = $cleanCurrentVersion.Split('.')
             
             switch ("${{ github.event.inputs.version_type }}") {
               "major" { $major++; $minor=0; $patch=0; $build=0 }
