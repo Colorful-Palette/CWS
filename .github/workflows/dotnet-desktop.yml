@@ -41,7 +41,7 @@ jobs:
       
       - name: Build CWS Project (Debug)
         run: |
-          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Debug" ".CWS/CWS/CWS.csproj" /m /verbosity:minimal
+          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Debug" "CWS/CWS.csproj" /m /verbosity:minimal
 
       - name: Check Build Output
         id: check-exe
