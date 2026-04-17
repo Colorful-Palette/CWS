@@ -47,31 +47,35 @@ jobs:
         id: check-exe
         shell: pwsh
         run: |
-          $arch = "${{ matrix.architecture }}"
-          # 基礎輸出路徑
-          $baseDir = "CWS/bin/Debug/net8.0-windows"
-         
-          if ($arch -eq "AnyCPU") {
-            $exePath = Join-Path $baseDir "CWS.exe"
-          } else {
-            $exePath = Join-Path $baseDir $arch "CWS.exe"
-          }
+          # 直接在 CWS/bin 目錄下搜索所有的 CWS.exe 檔案
+          $results = Get-ChildItem -Path "CWS/bin" -Filter "CWS.exe" -Recurse | Where-Object { $_.FullName -like "*Debug*" }
 
-          Write-Host "檢查目標路徑: $exePath"
+          if ($results) {
+            # 如果有多個（例如不同架構），選取目前 architecture 對應的那一個
+            $targetArch = "${{ matrix.architecture }}"
+            $exeFile = $null
 
-          if (Test-Path $exePath) {
-            Write-Host "✅ 成功找到執行檔"
+            if ($targetArch -eq "AnyCPU") {
+                $exeFile = $results | Where-Object { $_.FullName -notlike "*/x86/*" -and $_.FullName -notlike "*/x64/*" } | Select-Object -First 1
+            } else {
+                # x86 就找路徑中包含 x86 的
+                $exeFile = $results | Where-Object { $_.FullName -like "*$targetArch*" } | Select-Object -First 1
+            }
+            if ($null -eq $exeFile) { $exeFile = $results[0] }
+
+            $exePath = $exeFile.FullName
+            Write-Host "✅ 成功自動定位執行檔: $exePath"
+            
             echo "build_success=true" >> $env:GITHUB_OUTPUT
-            # 存儲確切的目錄供 Artifact 上傳使用
-            $fullDir = (Get-Item $exePath).DirectoryName
-            echo "exe_dir=$fullDir" >> $env:GITHUB_OUTPUT
+            echo "exe_dir=$($exeFile.DirectoryName)" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Error "❌ 找不到執行檔！"
-            # 偵錯用：列出 bin 下的所有內容，萬一路徑又變了可以看日誌
-            Get-ChildItem -Path "CWS/bin" -Recurse
+            Write-Error "❌ 在 bin 目錄下找不到 CWS.exe"
+            # 列出目錄結構方便調試
+            dir -Recurse CWS/bin
             echo "build_success=false" >> $env:GITHUB_OUTPUT
             exit 1
           }
+
 
       - name: Upload Debug Artifact
         if: steps.check-exe.outputs.build_success == 'true'
