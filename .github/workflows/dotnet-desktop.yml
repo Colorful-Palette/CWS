@@ -47,10 +47,10 @@ jobs:
         id: check-exe
         run: |
           # 根據架構定位編譯出的執行檔
-          $exePath = ".CWS/CWS/bin/Debug/net8.0-windows/${{ matrix.architecture }}/CWS.exe"
+          $exePath = "CWS/bin/Debug/net8.0-windows/${{ matrix.architecture }}/CWS.exe"
           if (!(Test-Path $exePath)) {
             # 嘗試根目錄路徑（視乎您的輸出路徑配置）
-            $exePath = ".CWS/CWS/bin/${{ matrix.architecture }}/Debug/net8.0-windows/CWS.exe"
+            $exePath = "CWS/bin/${{ matrix.architecture }}/Debug/net8.0-windows/CWS.exe"
           }
           
           if (Test-Path $exePath) {
