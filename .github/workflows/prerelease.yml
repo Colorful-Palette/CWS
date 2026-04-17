@@ -1,0 +1,195 @@
+name: CWS Pre-release and Changelog
+
+on:
+  push:
+    tags:
+      - '*' # 當推送任何 tag 時觸發
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: '版本提升類型'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+        - build
+      prerelease:
+        description: '是否設為預發布版本'
+        required: true
+        default: true
+        type: boolean
+      draft:
+        description: '是否設為草稿'
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: windows-latest
+    outputs:
+      tag_name: ${{ steps.get_tag.outputs.tag_name }}
+      version: ${{ steps.get_tag.outputs.version }}
+      is_prerelease: ${{ steps.release_type.outputs.is_prerelease }}
+      changelog: ${{ steps.read_changelog.outputs.changelog }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Get current version from Git tag
+        id: get_version
+        run: |
+          $latestTag = git describe --tags --abbrev=0 2>$null
+          if ($latestTag) { $version = $latestTag } else { $version = "1.0.0.0" }
+          echo "current_version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Process Versioning
+        id: get_tag
+        run: |
+          if ("${{ github.event_name }}" -eq "push") {
+            $tagName = "${{ github.ref }}".Replace("refs/tags/", "")
+            echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
+            echo "version=$tagName" >> $env:GITHUB_OUTPUT
+          } else {
+            $currentVersion = "${{ steps.get_version.outputs.current_version }}"
+            $v = [version]$currentVersion
+            $major, $minor, $patch, $build = $v.Major, $v.Minor, $v.Build, $v.Revision
+            
+            switch ("${{ github.event.inputs.version_type }}") {
+              "major" { $major++; $minor=0; $patch=0; $build=0 }
+              "minor" { $minor++; $patch=0; $build=0 }
+              "patch" { $patch++; $build=0 }
+              "build" { $build++ }
+            }
+            $newVersion = "$major.$minor.$patch.$build"
+            if ("${{ github.event.inputs.prerelease }}" -eq "true" -and $build -eq 0) { $build = 1; $newVersion = "$major.$minor.$patch.$build" }
+            echo "tag_name=$newVersion" >> $env:GITHUB_OUTPUT
+            echo "version=$newVersion" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Determine release type
+        id: release_type
+        run: |
+          if ("${{ github.event_name }}" -eq "push") {
+            $version = "${{ steps.get_tag.outputs.version }}"
+            $build = ([version]$version).Revision
+            if ($build -eq 0) { echo "is_prerelease=false" >> $env:GITHUB_OUTPUT } else { echo "is_prerelease=true" >> $env:GITHUB_OUTPUT }
+          } else {
+            echo "is_prerelease=${{ github.event.inputs.prerelease }}" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Generate Changelog (git-cliff)
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: build/cliff.toml
+          args: --latest --tag ${{ steps.get_tag.outputs.tag_name }} --output CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read changelog content
+        id: read_changelog
+        run: |
+          $content = Get-Content -Path CHANGELOG.md -Raw
+          echo "changelog<<EOF" >> $env:GITHUB_OUTPUT
+          echo $content >> $env:GITHUB_OUTPUT
+          echo "EOF" >> $env:GITHUB_OUTPUT
+
+  build:
+    needs: prepare
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [AnyCPU, x86]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          cache: true
+
+      - name: Restore and Build CWS
+        run: |
+          dotnet restore "CWS.sln"
+          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Release" ".CWS/CWS/CWS.csproj" /m /verbosity:minimal
+
+      - name: Create Release Archive
+        id: create_archive
+        run: |
+          $version = "${{ needs.prepare.outputs.version }}"
+          $suffix = if ("${{ matrix.architecture }}" -eq "AnyCPU") { "-x64" } else { "" }
+          $archiveName = "CWS.$version$suffix.zip"
+          New-Item -ItemType Directory -Path "release" -Force
+          Copy-Item ".CWS/CWS/bin/Release/*" "release/" -Recurse -Force
+          Compress-Archive -Path "release/*" -DestinationPath $archiveName -Force
+          echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
+
+      - name: Install Inno Setup Languages
+        run: |
+          New-Item -ItemType Directory -Path "temp_lang" -Force
+          Invoke-WebRequest -Uri "https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/EnglishBritish.isl" -OutFile "temp_lang/EnglishBritish.isl"
+          Invoke-WebRequest -Uri "https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/ChineseSimplified.isl" -OutFile "temp_lang/ChineseSimplified.isl"
+          Move-Item -Path "temp_lang/*.isl" -Destination "C:/Program Files (x86)/Inno Setup 6/Languages/" -Force
+
+      - name: Prepare Inno Setup script
+        run: |
+          $version = "${{ needs.prepare.outputs.version }}"
+          $suffix = if ("${{ matrix.architecture }}" -eq "AnyCPU") { "-x64" } else { "" }
+          $issPath = "build/CWS_Setup.iss"
+          $issContent = Get-Content -Path $issPath -Raw
+          $issContent = $issContent -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"$version`""
+          $issContent = $issContent -replace 'OutputBaseFilename=.*', "OutputBaseFilename=`"CWS.$version$suffix.Setup`""
+          $issContent | Set-Content -Path $issPath -Encoding UTF8
+
+      - name: Build Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        with:
+          path: build/CWS_Setup.iss
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: cws-build-${{ matrix.architecture }}
+          path: |
+            *.zip
+            build/*.exe
+
+  release:
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: CWS Release ${{ needs.prepare.outputs.version }}
+          body: ${{ needs.prepare.outputs.changelog }}
+          draft: ${{ github.event.inputs.draft || false }}
+          prerelease: ${{ needs.prepare.outputs.is_prerelease == 'true' }}
+          files: |
+            *.zip
+            *.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
