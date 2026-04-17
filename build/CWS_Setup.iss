@@ -30,8 +30,9 @@ Name: "startup"; Description: "開機自動啟動 CWS"; GroupDescription: "{cm:A
 
 [Files]
 Source: "../release/{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "../release/CWS.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../release/*.config"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "../release/*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../release/*.json"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
