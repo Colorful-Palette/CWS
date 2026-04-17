@@ -33,7 +33,8 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v5
         with:
-          cache: true
+          dotnet-version: '8.0.25'
+          cache: false
 
       - name: Restore Dependencies
         run: dotnet restore "CWS.sln"
