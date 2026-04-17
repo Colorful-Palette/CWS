@@ -133,14 +133,48 @@ jobs:
 
       - name: Create Release Archive
         id: create_archive
+        shell: pwsh
         run: |
+          # 1. 取得版本號與架構
           $version = "${{ needs.prepare.outputs.version }}"
-          $suffix = if ("${{ matrix.architecture }}" -eq "AnyCPU") { "-x64" } else { "" }
+          $arch = "${{ matrix.architecture }}"
+          
+          # 2. 定義 .NET 8 Release 輸出的標準路徑
+          $baseDir = "CWS/bin/Release/net8.0-windows"
+          
+          # 3. 判斷不同架構的來源路徑與壓縮檔後綴
+          if ($arch -eq "x86") {
+            $sourcePath = "$baseDir/x86/*"
+            $suffix = "-x86"
+          } else {
+            # AnyCPU 的檔案通常直接在框架資料夾下
+            $sourcePath = "$baseDir/*"
+            $suffix = "-x64"
+          }
+
           $archiveName = "CWS.$version$suffix.zip"
-          New-Item -ItemType Directory -Path "release" -Force
-          Copy-Item "CWS/bin/Release/*" "release/" -Recurse -Force
-          Compress-Archive -Path "release/*" -DestinationPath $archiveName -Force
-          echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
+          Write-Host "正在打包版本: $version ($arch)"
+
+          # 4. 建立臨時發佈資料夾並執行複製
+          # 使用臨時資料夾可以避免把 obj 或其他雜物壓進去
+          New-Item -ItemType Directory -Path "release_stage" -Force
+          
+          if (Test-Path $baseDir) {
+            # 複製檔案，排除不必要的 pdb (偵錯符號)
+            Copy-Item $sourcePath "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
+            
+            # 5. 執行壓縮
+            Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
+            
+            # 6. 將檔名傳遞給後續步驟 (如 Upload 或 Release)
+            echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
+            Write-Host "✅ 打包完成: $archiveName"
+          } else {
+            Write-Error "❌ 找不到路徑: $baseDir"
+            dir -Recurse CWS/bin
+            exit 1
+          }
+
 
       - name: Install Inno Setup Languages
         run: |
