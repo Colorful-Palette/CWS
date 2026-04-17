@@ -135,52 +135,39 @@ jobs:
         id: create_archive
         shell: pwsh
         run: |
-          # 取得版本號與架構
           $version = "${{ needs.prepare.outputs.version }}"
           $arch = "${{ matrix.architecture }}"
-          $possiblePaths = @(
-            "bin/Release/net8.0-windows",      # 方案 A: 直接在當前目錄
-            "CWS/bin/Release/net8.0-windows"   # 方案 B: 在子目錄
-          )
+          
+          Write-Host "🔍 開始全域搜索 CWS.exe (架構: $arch)..."
+          $exeFiles = Get-ChildItem -Path "." -Filter "CWS.exe" -Recurse | Where-Object { $_.FullName -like "*Release*" }
 
-          $baseDir = $null
-          foreach ($path in $possiblePaths) {
-            if (Test-Path $path) {
-              $baseDir = $path
-              break
-            }
-          }
-
-          if ($null -eq $baseDir) {
-            Write-Error "❌ 預期路徑找不到編譯輸出"
-            dir -Recurse # 列出所有檔案協助除錯
+          if ($null -eq $exeFiles) {
+            Write-Error "❌ 整個專案目錄下都找不到 CWS.exe！請檢查編譯步驟是否成功。"
+            dir -Recurse | Select-Object FullName
             exit 1
           }
-
-          # 判斷不同架構的來源路徑與壓縮檔後綴
           if ($arch -eq "x86") {
-            # 檢查 x86 是否在子目錄
-            if (Test-Path "$baseDir/x86") { $sourcePath = "$baseDir/x86/*" }
-            else { $sourcePath = "$baseDir/*" } # 有時 msbuild 會直接輸出到 baseDir
-            $suffix = "-x86"
+            $selectedExe = $exeFiles | Where-Object { $_.FullName -like "*x86*" } | Select-Object -First 1
           } else {
-            $sourcePath = "$baseDir/*"
-            $suffix = "-x64"
+            # AnyCPU 通常路徑不含架構名稱
+            $selectedExe = $exeFiles | Where-Object { $_.FullName -notlike "*x86*" -and $_.FullName -notlike "*x64*" } | Select-Object -First 1
           }
+          if ($null -eq $selectedExe) { $selectedExe = $exeFiles[0] }
 
+          $sourceDir = $selectedExe.Directory.FullName
+          Write-Host "✅ 成功定位輸出目錄: $sourceDir"
+          $suffix = if ($arch -eq "x86") { "-x86" } else { "-x64" }
           $archiveName = "CWS.$version$suffix.zip"
-          Write-Host "✅ 找到路徑: $baseDir"
-          Write-Host "📦 正在打包: $archiveName"
 
-          # 建立臨時發佈資料夾並執行複製
           New-Item -ItemType Directory -Path "release_stage" -Force
-          Copy-Item $sourcePath "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
+          Copy-Item "$sourceDir/*" "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
           
-          # 執行壓縮
           Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
           
-          # 輸出變數
+          # 輸出變數供後續 Inno Setup 使用
           echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
+          Write-Host "📦 打包完成: $archiveName"
+
 
 
 
