@@ -135,45 +135,53 @@ jobs:
         id: create_archive
         shell: pwsh
         run: |
-          # 1. 取得版本號與架構
+          # 取得版本號與架構
           $version = "${{ needs.prepare.outputs.version }}"
           $arch = "${{ matrix.architecture }}"
-          
-          # 2. 定義 .NET 8 Release 輸出的標準路徑
-          $baseDir = "CWS/bin/Release/net8.0-windows"
-          
-          # 3. 判斷不同架構的來源路徑與壓縮檔後綴
+          $possiblePaths = @(
+            "bin/Release/net8.0-windows",      # 方案 A: 直接在當前目錄
+            "CWS/bin/Release/net8.0-windows"   # 方案 B: 在子目錄
+          )
+
+          $baseDir = $null
+          foreach ($path in $possiblePaths) {
+            if (Test-Path $path) {
+              $baseDir = $path
+              break
+            }
+          }
+
+          if ($null -eq $baseDir) {
+            Write-Error "❌ 預期路徑找不到編譯輸出"
+            dir -Recurse # 列出所有檔案協助除錯
+            exit 1
+          }
+
+          # 判斷不同架構的來源路徑與壓縮檔後綴
           if ($arch -eq "x86") {
-            $sourcePath = "$baseDir/x86/*"
+            # 檢查 x86 是否在子目錄
+            if (Test-Path "$baseDir/x86") { $sourcePath = "$baseDir/x86/*" }
+            else { $sourcePath = "$baseDir/*" } # 有時 msbuild 會直接輸出到 baseDir
             $suffix = "-x86"
           } else {
-            # AnyCPU 的檔案通常直接在框架資料夾下
             $sourcePath = "$baseDir/*"
             $suffix = "-x64"
           }
 
           $archiveName = "CWS.$version$suffix.zip"
-          Write-Host "正在打包版本: $version ($arch)"
+          Write-Host "✅ 找到路徑: $baseDir"
+          Write-Host "📦 正在打包: $archiveName"
 
-          # 4. 建立臨時發佈資料夾並執行複製
-          # 使用臨時資料夾可以避免把 obj 或其他雜物壓進去
+          # 建立臨時發佈資料夾並執行複製
           New-Item -ItemType Directory -Path "release_stage" -Force
+          Copy-Item $sourcePath "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
           
-          if (Test-Path $baseDir) {
-            # 複製檔案，排除不必要的 pdb (偵錯符號)
-            Copy-Item $sourcePath "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
-            
-            # 5. 執行壓縮
-            Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
-            
-            # 6. 將檔名傳遞給後續步驟 (如 Upload 或 Release)
-            echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
-            Write-Host "✅ 打包完成: $archiveName"
-          } else {
-            Write-Error "❌ 找不到路徑: $baseDir"
-            dir -Recurse CWS/bin
-            exit 1
-          }
+          # 執行壓縮
+          Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
+          
+          # 輸出變數
+          echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
+
 
 
       - name: Install Inno Setup Languages
