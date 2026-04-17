@@ -168,9 +168,11 @@ jobs:
           echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
           Write-Host "📦 打包完成: $archiveName"
 
-
-
-
+      - name: Sync Files for Inno Setup
+        run: |
+          New-Item -ItemType Directory -Path "release" -Force
+          Copy-Item "release_stage/*" "release/" -Recurse -Force
+          
       - name: Install Inno Setup Languages
         run: |
           New-Item -ItemType Directory -Path "temp_lang" -Force
@@ -187,6 +189,7 @@ jobs:
           $issContent = $issContent -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"$version`""
           $issContent = $issContent -replace 'OutputBaseFilename=.*', "OutputBaseFilename=`"CWS.$version$suffix.Setup`""
           $issContent | Set-Content -Path $issPath -Encoding UTF8
+
 
       - name: Build Installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
