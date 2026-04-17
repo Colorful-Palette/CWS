@@ -123,12 +123,13 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v5
         with:
-          cache: true
+          dotnet-version: '8.0.419'
+          cache: false
 
       - name: Restore and Build CWS
         run: |
-          dotnet restore "CWS.sln"
-          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Release" ".CWS/CWS/CWS.csproj" /m /verbosity:minimal
+          dotnet restore "FirstMain.slnx"
+          msbuild /p:platform="${{ matrix.architecture }}" /p:configuration="Release" "CWS/CWS.csproj" /m /verbosity:minimal
 
       - name: Create Release Archive
         id: create_archive
@@ -137,7 +138,7 @@ jobs:
           $suffix = if ("${{ matrix.architecture }}" -eq "AnyCPU") { "-x64" } else { "" }
           $archiveName = "CWS.$version$suffix.zip"
           New-Item -ItemType Directory -Path "release" -Force
-          Copy-Item ".CWS/CWS/bin/Release/*" "release/" -Recurse -Force
+          Copy-Item "CWS/bin/Release/*" "release/" -Recurse -Force
           Compress-Archive -Path "release/*" -DestinationPath $archiveName -Force
           echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
 
