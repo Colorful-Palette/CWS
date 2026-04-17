@@ -138,35 +138,30 @@ jobs:
           $version = "${{ needs.prepare.outputs.version }}"
           $arch = "${{ matrix.architecture }}"
           
-          Write-Host "🔍 開始全域搜索 CWS.exe (架構: $arch)..."
-          $exeFiles = Get-ChildItem -Path "." -Filter "CWS.exe" -Recurse | Where-Object { $_.FullName -like "*Release*" }
+          # 自動定位編譯輸出的資料夾
+          $exeFile = Get-ChildItem -Path "." -Filter "CWS.exe" -Recurse | Where-Object { $_.FullName -like "*Release*" } | Select-Object -First 1
+          if ($null -eq $exeFile) { Write-Error "❌ 找不到 CWS.exe"; exit 1 }
+          $sourceDir = $exeFile.Directory.FullName
 
-          if ($null -eq $exeFiles) {
-            Write-Error "❌ 整個專案目錄下都找不到 CWS.exe！請檢查編譯步驟是否成功。"
-            dir -Recurse | Select-Object FullName
-            exit 1
-          }
-          if ($arch -eq "x86") {
-            $selectedExe = $exeFiles | Where-Object { $_.FullName -like "*x86*" } | Select-Object -First 1
-          } else {
-            # AnyCPU 通常路徑不含架構名稱
-            $selectedExe = $exeFiles | Where-Object { $_.FullName -notlike "*x86*" -and $_.FullName -notlike "*x64*" } | Select-Object -First 1
-          }
-          if ($null -eq $selectedExe) { $selectedExe = $exeFiles[0] }
+          # 建立打包區
+          New-Item -ItemType Directory -Path "release_stage" -Force
 
-          $sourceDir = $selectedExe.Directory.FullName
-          Write-Host "✅ 成功定位輸出目錄: $sourceDir"
+          # 黑名單 
+          # *.pdb: 偵錯符號
+          # *.obj: 編譯中間件
+          # ref:   引用目錄
+          $excludeList = @("*.pdb", "*.obj", "ref")
+
+          # 執行複製 (僅排除黑名單)
+          Copy-Item "$sourceDir/*" "release_stage/" -Recurse -Force -Exclude $excludeList
+
+          # 執行壓縮
           $suffix = if ($arch -eq "x86") { "-x86" } else { "-x64" }
           $archiveName = "CWS.$version$suffix.zip"
-
-          New-Item -ItemType Directory -Path "release_stage" -Force
-          Copy-Item "$sourceDir/*" "release_stage/" -Recurse -Force -Exclude "*.pdb","*.obj"
-          
           Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
           
-          # 輸出變數供後續 Inno Setup 使用
           echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
-          Write-Host "📦 打包完成: $archiveName"
+          Write-Host "✅ 已清理黑名單並完成打包：$archiveName"
 
       - name: Sync Files for Inno Setup
         run: |
