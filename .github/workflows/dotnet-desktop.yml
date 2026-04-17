@@ -45,17 +45,30 @@ jobs:
 
       - name: Check Build Output
         id: check-exe
+        shell: pwsh
         run: |
-          # 根據架構定位編譯出的執行檔
-          $exePath = "CWS/bin/Debug/net8.0-windows/${{ matrix.architecture }}/CWS.exe"
-          if (!(Test-Path $exePath)) {
-            # 嘗試根目錄路徑（視乎您的輸出路徑配置）
-            $exePath = "CWS/bin/${{ matrix.architecture }}/Debug/net8.0-windows/CWS.exe"
-          }
-          
-          if (Test-Path $exePath) {
-            echo "build_success=true" >> $env:GITHUB_OUTPUT
+          $arch = "${{ matrix.architecture }}"
+          # 基礎輸出路徑
+          $baseDir = "CWS/bin/Debug/net8.0-windows"
+         
+          if ($arch -eq "AnyCPU") {
+            $exePath = Join-Path $baseDir "CWS.exe"
           } else {
+            $exePath = Join-Path $baseDir $arch "CWS.exe"
+          }
+
+          Write-Host "檢查目標路徑: $exePath"
+
+          if (Test-Path $exePath) {
+            Write-Host "✅ 成功找到執行檔"
+            echo "build_success=true" >> $env:GITHUB_OUTPUT
+            # 存儲確切的目錄供 Artifact 上傳使用
+            $fullDir = (Get-Item $exePath).DirectoryName
+            echo "exe_dir=$fullDir" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Error "❌ 找不到執行檔！"
+            # 偵錯用：列出 bin 下的所有內容，萬一路徑又變了可以看日誌
+            Get-ChildItem -Path "CWS/bin" -Recurse
             echo "build_success=false" >> $env:GITHUB_OUTPUT
             exit 1
           }
