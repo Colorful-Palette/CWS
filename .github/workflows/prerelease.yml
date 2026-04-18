@@ -190,20 +190,25 @@ jobs:
           $issContent = $issContent -replace 'OutputBaseFilename=.*', "OutputBaseFilename=`"CWS.$version$suffix.Setup`""
           $issContent | Set-Content -Path $issPath -Encoding UTF8
 
-
       - name: Build Installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: build/CWS_Setup.iss
           options: /DMyAppVersion=${{ needs.prepare.outputs.version }}
 
+      - name: List Build Files
+        run: Get-ChildItem -Path "CWS/bin" -Recurse | Select-Object FullName
+
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
-          name: cws-build-${{ matrix.architecture }}
+          name: CWS-Binary-${{ matrix.architecture }}
           path: |
-            *.zip
-            build/*.exe
+            CWS/bin/**/Release/net8.0-windows/*.exe
+            CWS/bin/**/Release/net8.0-windows/*.dll
+            CWS/bin/**/Release/net8.0-windows/*.json
+          if-no-files-found: error
+
 
   release:
     needs: [prepare, build]
