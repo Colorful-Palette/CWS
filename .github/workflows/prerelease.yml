@@ -11,7 +11,7 @@ on:
         required: true
         default: 'patch'
         type: choice
-        options:
+        optioil:
         - patch
         - minor
         - major
@@ -55,29 +55,38 @@ jobs:
 
       - name: Process Versioning
         id: get_tag
+        shell: pwsh
         run: |
-          $tagName = "v$newVersion"
-          echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
-          echo "version=$newVersion" >> $env:GITHUB_OUTPUT
-            
-            echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
-            echo "version=$cleanVersion" >> $env:GITHUB_OUTPUT
+          $currentTag = "v0.4.0.0" 
+          $gitTag = git describe --tags --abbrev=0 2>$null
+          if ($gitTag) { $currentTag = $gitTag }
+
+          if ("${{ github.event_name }}" -eq "push" -and "${{ github.ref }}".StartsWith("refs/tags/")) {
+            $tagName = "${{ github.ref }}".Replace("refs/tags/", "")
+            $version = $tagName.TrimStart('v')
           } else {
-            $currentVersion = "${{ steps.get_version.outputs.current_version }}"
-            $cleanCurrentVersion = $currentVersion.TrimStart('v')
-            $versionParts = $cleanCurrentVersion.Split('.')
-            
-            switch ("${{ github.event.inputs.version_type }}") {
+            $cleanVersion = $currentTag.TrimStart('v')
+            $v = [version]$cleanVersion
+            $major, $minor, $patch, $build = $v.Major, $v.Minor, $v.Build, ([Math]::Max(0, $v.Revision))
+
+            $type = "${{ github.event.inputs.version_type }}"
+            if ([string]::IsNullOrEmpty($type)) { $type = "build" }
+
+            switch ($type) {
               "major" { $major++; $minor=0; $patch=0; $build=0 }
               "minor" { $minor++; $patch=0; $build=0 }
               "patch" { $patch++; $build=0 }
               "build" { $build++ }
             }
-            $newVersion = "$major.$minor.$patch.$build"
-            if ("${{ github.event.inputs.prerelease }}" -eq "true" -and $build -eq 0) { $build = 1; $newVersion = "$major.$minor.$patch.$build" }
-            echo "tag_name=$newVersion" >> $env:GITHUB_OUTPUT
-            echo "version=$newVersion" >> $env:GITHUB_OUTPUT
+            
+            $version = "$major.$minor.$patch.$build"
+            $tagName = "v$version"
           }
+
+          Write-Host "✅ Final Tag: $tagName"
+          Write-Host "✅ Final Version: $version"
+          echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
+          echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Determine release type
         id: release_type
