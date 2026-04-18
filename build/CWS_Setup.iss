@@ -18,7 +18,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=../build
-OutputBaseFilename=CWS_Setup
+OutputBaseFilename=CWS_Setup.exe
 SolidCompression=yes
 WizardStyle=modern
 
