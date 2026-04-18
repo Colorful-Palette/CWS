@@ -227,6 +227,9 @@ jobs:
           tag_name: ${{ needs.prepare.outputs.tag_name }}
           files: |
             *.zip
-            build/CWS_Setup.exe
+            **/*_Setup*.exe
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
