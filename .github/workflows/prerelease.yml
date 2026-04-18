@@ -195,6 +195,7 @@ jobs:
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: build/CWS_Setup.iss
+          options: /DMyAppVersion=${{ needs.prepare.outputs.version }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
@@ -215,16 +216,12 @@ jobs:
         with:
           merge-multiple: true
 
-      - name: Create GitHub Release
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare.outputs.tag_name }}
-          name: CWS Release ${{ needs.prepare.outputs.version }}
-          body: ${{ needs.prepare.outputs.changelog }}
-          draft: ${{ github.event.inputs.draft || false }}
-          prerelease: ${{ needs.prepare.outputs.is_prerelease == 'true' }}
           files: |
             *.zip
-            *.exe
+            build/CWS_Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
