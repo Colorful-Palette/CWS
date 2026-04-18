@@ -7,15 +7,15 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: '版本提升類型'
+        description: '選擇版本提升類型'
         required: true
-        default: 'patch'
+        default: 'build'
         type: choice
-        optioil:
-        - patch
-        - minor
-        - major
-        - build
+        options:
+          - major
+          - minor
+          - patch
+          - build
       prerelease:
         description: '是否設為預發布版本'
         required: true
