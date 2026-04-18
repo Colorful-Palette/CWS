@@ -1,5 +1,7 @@
 #define MyAppName "CWS"
-#define MyAppVersion "1.0.0.0" 
+#ifndef MyAppVersion
+  #define MyAppVersion "1.0.0.0"
+#endif
 #define MyAppPublisher "NekoCat"
 #define MyAppURL "https://github.com/Colorful-Palette/CWS"
 #define MyAppExeName "CWS.exe"
