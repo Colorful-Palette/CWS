@@ -56,9 +56,9 @@ jobs:
       - name: Process Versioning
         id: get_tag
         run: |
-          if ("${{ github.event_name }}" -eq "push") {
-            $tagName = "${{ github.ref }}".Replace("refs/tags/", "")
-            $cleanVersion = $tagName.TrimStart('v')
+          $tagName = "v$newVersion"
+          echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
+          echo "version=$newVersion" >> $env:GITHUB_OUTPUT
             
             echo "tag_name=$tagName" >> $env:GITHUB_OUTPUT
             echo "version=$cleanVersion" >> $env:GITHUB_OUTPUT
