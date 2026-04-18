@@ -136,32 +136,37 @@ jobs:
         shell: pwsh
         run: |
           $version = "${{ needs.prepare.outputs.version }}"
+          if ([string]::IsNullOrWhiteSpace($version)) { $version = "1.0.0.0" }
+          
           $arch = "${{ matrix.architecture }}"
           
-          # 自動定位編譯輸出的資料夾
+          Write-Host "🔍 执行编译"
+  
           $exeFile = Get-ChildItem -Path "." -Filter "CWS.exe" -Recurse | Where-Object { $_.FullName -like "*Release*" } | Select-Object -First 1
-          if ($null -eq $exeFile) { Write-Error "❌ 找不到 CWS.exe"; exit 1 }
-          $sourceDir = $exeFile.Directory.FullName
+          
+          if ($null -eq $exeFile) {
+            Write-Error "❌ 找不到編譯出的 CWS.exe"
+            exit 1
+          }
 
-          # 建立打包區
+          $sourceDir = $exeFile.Directory.FullName
+          Write-Host "✅ 定位到輸出目錄: $sourceDir"
+
+          if (Test-Path "release_stage") { Remove-Item "release_stage" -Recurse -Force }
           New-Item -ItemType Directory -Path "release_stage" -Force
 
-          # 黑名單 
-          # *.pdb: 偵錯符號
-          # *.obj: 編譯中間件
-          # ref:   引用目錄
-          $excludeList = @("*.pdb", "*.obj", "ref")
+          # 4. 複製檔案 (僅排除 pdb/obj/ref)
+          Copy-Item "$sourceDir/*" "release_stage/" -Recurse -Force -Exclude @("*.pdb", "*.obj", "ref")
 
-          # 執行複製 (僅排除黑名單)
-          Copy-Item "$sourceDir/*" "release_stage/" -Recurse -Force -Exclude $excludeList
-
-          # 執行壓縮
           $suffix = if ($arch -eq "x86") { "-x86" } else { "-x64" }
           $archiveName = "CWS.$version$suffix.zip"
+          
+          # 執行壓縮
           Compress-Archive -Path "release_stage/*" -DestinationPath $archiveName -Force
           
           echo "archive_name=$archiveName" >> $env:GITHUB_OUTPUT
-          Write-Host "✅ 已清理黑名單並完成打包：$archiveName"
+          Write-Host "📦 打包完成：$archiveName"
+
 
       - name: Sync Files for Inno Setup
         run: |
