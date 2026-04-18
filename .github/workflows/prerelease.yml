@@ -208,16 +208,14 @@ jobs:
       - name: List Build Files
         run: Get-ChildItem -Path "CWS/bin" -Recurse | Select-Object FullName
 
-      - name: Upload Artifacts
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: CWS-Binary-${{ matrix.architecture }}
+          name: release-assets-${{ matrix.architecture }}
           path: |
-            CWS/bin/**/Release/net8.0-windows/*.exe
-            CWS/bin/**/Release/net8.0-windows/*.dll
-            CWS/bin/**/Release/net8.0-windows/*.json
+            *.zip
+            build/*.exe
           if-no-files-found: error
-
 
   release:
     needs: [prepare, build]
@@ -225,20 +223,28 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v8
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
+          path: ./downloaded-assets
           merge-multiple: true
+
+      - name: Check downloaded files
+        run: ls -R ./downloaded-assets
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: CWS ${{ needs.prepare.outputs.tag_name }}
+          body: ${{ needs.prepare.outputs.changelog }}
           files: |
-            *.zip
-            **/*_Setup*.exe
-          draft: false
-          prerelease: false
+            ./downloaded-assets/*.zip
+            ./downloaded-assets/*.exe
+          draft: ${{ github.event.inputs.draft || false }}
+          prerelease: ${{ needs.prepare.outputs.is_prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
