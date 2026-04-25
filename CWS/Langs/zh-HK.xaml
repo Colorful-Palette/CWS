@@ -44,4 +44,6 @@
     <System:String x:Key="Lang_BgEdit_BtnReset">重設</System:String>
     <System:String x:Key="Lang_BgEdit_BtnCancel">唔要喇</System:String>
     <System:String x:Key="Lang_BgEdit_BtnConfirm">確定套用</System:String>
+    
+    <System:String x:Key="Lang_Status_AlreadyRunning">程式已經執行緊，已經幫你切換返去現有視窗</System:String>
 </ResourceDictionary>

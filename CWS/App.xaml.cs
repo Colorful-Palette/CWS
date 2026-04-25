@@ -1,35 +1,82 @@
 ﻿using System;
-using System.Configuration;
-using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace CWS
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        // 全域唯一的 Mutex ID
+        private static Mutex? _mutex = null;
+        private const string AppGuid = "CWS-Assistant-Unique-Mutex-99123";
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindow(string? lpClassName, string lpWindowName);
+
+        private const int SW_RESTORE = 9;
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            // 强制设置工作目录为程序所在目录
-            // 这兴许能解决自启动问题
+            _mutex = new Mutex(true, AppGuid, out bool createdNew);
+
+            if (!createdNew)
+            {
+                ActivateExistingWindow();
+                Environment.Exit(0);
+                return;
+            }
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             Directory.SetCurrentDirectory(baseDirectory);
 
-            // 如果注册表里加了 --autostart 
             bool isAutoStart = e.Args.Contains("--autostart");
-
-            if (isAutoStart)
+            bool startAsFloating = false;
+            try
             {
-                // 这里可以决定自启动时的行为
-                // 例如：如果不希望自启动时弹出大窗口，可以在这里处理
-                // 或者在 MainWindow_Loaded 里判断并隐藏主界面
+                using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\CWS"))
+                {
+                    if (key != null)
+                    {
+                        startAsFloating = (int)key.GetValue("StartAsFloating", 0) == 1;
+                    }
+                }
+            }
+            catch { /* 忽略讀取錯誤 */ }
+            if (isAutoStart || startAsFloating)
+            {
+                this.Properties["StartMinimized"] = true;
             }
 
             base.OnStartup(e);
+        }
+
+        private void ActivateExistingWindow()
+        {
+            IntPtr hWnd = FindWindow(null, "CWS 控制中心");
+            if (hWnd != IntPtr.Zero)
+            {
+                ShowWindow(hWnd, SW_RESTORE);
+                SetForegroundWindow(hWnd);
+            }
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (_mutex != null)
+            {
+                _mutex.ReleaseMutex();
+                _mutex.Dispose();
+            }
+            base.OnExit(e);
         }
     }
 }

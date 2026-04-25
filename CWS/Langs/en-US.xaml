@@ -50,4 +50,6 @@
     <System:String x:Key="Lang_BgEdit_BtnReset">Reset</System:String>
     <System:String x:Key="Lang_BgEdit_BtnCancel">Cancel</System:String>
     <System:String x:Key="Lang_BgEdit_BtnConfirm">Apply</System:String>
+    
+    <System:String x:Key="Lang_Status_AlreadyRunning">CWS is already running. Switched to the existing window.</System:String>
 </ResourceDictionary>

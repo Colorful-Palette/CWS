@@ -42,4 +42,6 @@
     <System:String x:Key="Lang_BgEdit_BtnReset">還原初衷</System:String>
     <System:String x:Key="Lang_BgEdit_BtnCancel">作罷</System:String>
     <System:String x:Key="Lang_BgEdit_BtnConfirm">塵埃落定</System:String>
+    
+    <System:String x:Key="Lang_Status_AlreadyRunning">你只能有一个头</System:String>
 </ResourceDictionary>

@@ -28,7 +28,8 @@
     <System:String x:Key="Lang_Status_CleaningCache">正在清理图标缓存并重启资源管理器...</System:String>
     <System:String x:Key="Lang_Status_CleanDone">清理完成！系统已重新建立图标数据库。</System:String> 
     <System:String x:Key="Lang_About_Desc">这是一个专注于解决 Office 与 WPS 冲突的工具。</System:String>
-    <System:String x:Key="Lang_About_License">MIT License</System:String> <System:String x:Key="Lang_About_Author">NekoCat</System:String>
+    <System:String x:Key="Lang_About_License">MIT License</System:String> 
+    <System:String x:Key="Lang_About_Author">NekoCat</System:String>
     <System:String x:Key="Lang_Status_Default">BanG Dream It's MyGO!!!!!</System:String>
 
     <System:String x:Key="Lang_Menu_ShowMain">显示主界面</System:String>
@@ -43,4 +44,6 @@
 	<System:String x:Key="Lang_BgEdit_BtnReset">重置</System:String>
 	<System:String x:Key="Lang_BgEdit_BtnCancel">取消</System:String>
 	<System:String x:Key="Lang_BgEdit_BtnConfirm">确定应用</System:String>
+	
+	<System:String x:Key="Lang_Status_AlreadyRunning">程序已在运行中，已为你切换至现有窗口</System:String>
 </ResourceDictionary>
