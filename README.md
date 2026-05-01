@@ -1,4 +1,5 @@
 # CWS Assistant (Colorful-palette Workspace Solution)
+**🌐 [官方網站 | Official Website](https://cleanws.us.ci/)**
 
 [![GitHub Release](https://img.shields.io/github/v/release/Colorful-Palette/CWS?style=flat-square)](https://github.com/Colorful-Palette/CWS/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
