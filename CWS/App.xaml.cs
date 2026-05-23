@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using CWS.Services;
 
 namespace CWS
 {
@@ -27,6 +28,8 @@ namespace CWS
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Logger.Info("CWS application starting");
+
             _mutex = new Mutex(true, AppGuid, out bool createdNew);
 
             if (!createdNew)
@@ -51,17 +54,42 @@ namespace CWS
                 }
             }
             catch { /* 忽略讀取錯誤 */ }
+
+            // 也從 Properties.Settings 讀取
+            if (!startAsFloating)
+            {
+                try { startAsFloating = CWS.Properties.Settings.Default.StartAsFloating; }
+                catch { }
+            }
+
             if (isAutoStart || startAsFloating)
             {
                 this.Properties["StartMinimized"] = true;
+                Logger.Info("Starting in minimized/floating mode");
             }
 
-            base.OnStartup(e);
+            // 根據設定選擇啟動窗口
+            bool useModern = false;
+            try { useModern = CWS.Properties.Settings.Default.UseModernUI; } catch { }
+
+            Window mainWindow;
+            if (useModern)
+            {
+                mainWindow = new ModernWindow();
+                Logger.Info("Starting with Material Design UI");
+            }
+            else
+            {
+                mainWindow = new MainWindow();
+            }
+            mainWindow.Show();
         }
 
         private void ActivateExistingWindow()
         {
             IntPtr hWnd = FindWindow(null, "CWS 控制中心");
+            if (hWnd == IntPtr.Zero)
+                hWnd = FindWindow(null, "CWS Control Center");
             if (hWnd != IntPtr.Zero)
             {
                 ShowWindow(hWnd, SW_RESTORE);
@@ -71,9 +99,10 @@ namespace CWS
 
         protected override void OnExit(ExitEventArgs e)
         {
+            Logger.Info("CWS application exiting");
             if (_mutex != null)
             {
-                _mutex.ReleaseMutex();
+                try { _mutex.ReleaseMutex(); } catch { }
                 _mutex.Dispose();
             }
             base.OnExit(e);

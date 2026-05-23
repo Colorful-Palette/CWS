@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -152,12 +153,16 @@ namespace CWS
 
         private void RestoreToMain()
         {
-            if (Application.Current.MainWindow is MainWindow main)
+            foreach (Window win in Application.Current.Windows)
             {
-                main.Show();
-                main.WindowState = WindowState.Normal;
-                main.Activate();
-                this.Hide();
+                if (win != this && win is not FloatingBall)
+                {
+                    win.Show();
+                    win.WindowState = WindowState.Normal;
+                    win.Activate();
+                    this.Hide();
+                    return;
+                }
             }
         }
 
@@ -215,9 +220,9 @@ namespace CWS
                 }
                 Properties.Settings.Default.IsAutoStart = enable;
                 Properties.Settings.Default.Save();
-                if (Application.Current.MainWindow is MainWindow main)
+                if (Application.Current.MainWindow is Window main)
                 {
-                    var chk = main.FindName("chkRunAtStartup") as CheckBox;
+                    var chk = main.FindName("chkRunAtStartup") as ToggleButton;
                     if (chk != null) chk.IsChecked = enable;
                 }
             }

@@ -270,6 +270,20 @@
                                         <CheckBox x:Name="chkRunAtStartup" HorizontalAlignment="Right" VerticalAlignment="Center" Checked="chkRunAtStartup_Checked" Unchecked="chkRunAtStartup_Unchecked"/>
                                     </DockPanel>
                                     <Separator Background="#22FFFFFF" Margin="0,5"/>
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Text="{DynamicResource Lang_Card_StartupModeTitle}" Foreground="White" FontSize="14" FontWeight="Bold"/>
+                                        <TextBlock Text="{DynamicResource Lang_Card_StartupFloatingDesc}" Foreground="#AAA" FontSize="11" Margin="0,3,0,8"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton x:Name="rbStartupMainWindow"
+                                                         Content="{DynamicResource Lang_StartupMode_MainWindow}"
+                                                         Foreground="White" FontSize="12" VerticalAlignment="Center"
+                                                         Margin="0,0,20,0" Checked="StartupMode_Changed"/>
+                                            <RadioButton x:Name="rbStartupFloatingBall"
+                                                         Content="{DynamicResource Lang_StartupMode_FloatingBall}"
+                                                         Foreground="White" FontSize="12" VerticalAlignment="Center"
+                                                         Checked="StartupMode_Changed"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                     <DockPanel Margin="0,10,0,0">
                                         <StackPanel>
                                             <TextBlock Text="{DynamicResource Lang_Card_MonitorTitle}" Foreground="White" FontSize="14" FontWeight="Bold"/>
@@ -286,6 +300,15 @@
                                 <Button x:Name="btnRestartPPTService" Content="{DynamicResource Lang_Btn_RestartPPT}" Click="btnRestartPPTService_Click" Width="130" Margin="0,0,8,8"/>
                                 <Button x:Name="btnSwitchToFloating" Content="{DynamicResource Lang_Btn_Floating}" Click="btnSwitchToFloating_Click" Width="130" Margin="0,0,8,8"/>
                             </WrapPanel>
+
+                            <Separator Background="#22FFFFFF" Margin="0,10"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Button x:Name="btnExportConfig" Content="{DynamicResource Lang_Btn_ExportConfig}" Click="btnExportConfig_Click" Width="130" Margin="0,0,10,0"/>
+                                <Button x:Name="btnImportConfig" Content="{DynamicResource Lang_Btn_ImportConfig}" Click="btnImportConfig_Click" Width="130"/>
+                            </StackPanel>
+
+                            <Separator Background="#22FFFFFF" Margin="0,10"/>
+                            <Button x:Name="btnSwitchToModern" Content="{DynamicResource Lang_Btn_SwitchToModern}" Click="btnSwitchToModern_Click" Width="220" Background="#4400BCF2" BorderBrush="#6600BCF2"/>
                         </StackPanel>
 
                         <StackPanel x:Name="PagePPTOpt" Visibility="Collapsed">
@@ -325,8 +348,11 @@
                                     <TextBlock x:Name="txtVersionDisplay" Text="CWS v0.4.0" Foreground="{StaticResource MainBlue}" FontSize="18" FontWeight="Bold"/>
                                     <TextBlock Text="{DynamicResource Lang_About_Author}" Foreground="#DDD" Margin="0,10,0,0"/>
                                     <TextBlock Text="{DynamicResource Lang_About_Desc}" Foreground="#AAA" TextWrapping="Wrap" Margin="0,5,0,0"/>
-                                    <Separator Background="#22FFFFFF" Margin="0,20"/>
+                                    <Button x:Name="btnCheckUpdate" Content="{DynamicResource Lang_About_CheckUpdate}" Click="btnCheckUpdate_Click" Width="160" HorizontalAlignment="Left" Margin="0,15,0,10" Background="#4400BCF2" BorderBrush="#6600BCF2"/>
+                                    <TextBlock x:Name="txtUpdateStatus" Foreground="{StaticResource MainBlue}" FontSize="11" Margin="0,0,0,10" Visibility="Collapsed" Cursor="Hand" TextDecorations="Underline" MouseLeftButtonDown="txtUpdateStatus_MouseLeftButtonDown"/>
+                                    <Separator Background="#22FFFFFF" Margin="0,10"/>
                                     <TextBlock Text="{DynamicResource Lang_About_License}" FontSize="12" Foreground="White" Opacity="0.6"/>
+                                    <Button x:Name="btnExportLogs" Content="{DynamicResource Lang_Btn_ExportLogs}" Click="btnExportLogs_Click" Width="180" HorizontalAlignment="Left" Margin="0,15,0,0" Background="#441A3A5A"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>

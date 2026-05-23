@@ -10,6 +10,8 @@
     <System:String x:Key="Lang_Btn_Clear">清除背景</System:String>
     <System:String x:Key="Lang_Card_StartupTitle">系统启动</System:String>
     <System:String x:Key="Lang_Card_StartupDesc">在 Windows 登录时自动运行 CWS</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">自启进入悬浮球</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">开机自启后直接显示悬浮球，不显示主界面</System:String>
     <System:String x:Key="Lang_Card_MonitorTitle">PPT 智能监控</System:String>
     <System:String x:Key="Lang_Card_MonitorDesc">检测到 PowerPoint 打开时自动修复服务</System:String>
     <System:String x:Key="Lang_Label_QuickFix">快速修复</System:String>
@@ -17,9 +19,9 @@
     <System:String x:Key="Lang_Btn_RestartPPT">重启 PPTService</System:String>
     <System:String x:Key="Lang_Btn_Floating">切换至悬浮球</System:String>
     <System:String x:Key="Lang_Card_AssocTitle">文件关联</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">切换PPT相关格式的打开方式</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">关联为 PowerPoint</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">关联为 WPS</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">切换所有PPT格式的打开方式 (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">关联为 PowerPoint (全部PPT格式)</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">关联为 WPS (全部PPT格式)</System:String>
     <System:String x:Key="Lang_Btn_RestartExplorer">刷新图标 (重启资源管理器)</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">清除图标缓存</System:String>
     <System:String x:Key="Lang_Status_RestartingExp">正在重启资源管理器以刷新图标...</System:String>
@@ -46,4 +48,18 @@
 	<System:String x:Key="Lang_BgEdit_BtnConfirm">确定应用</System:String>
 	
 	<System:String x:Key="Lang_Status_AlreadyRunning">程序已在运行中，已为你切换至现有窗口</System:String>
+
+	<System:String x:Key="Lang_Btn_ExportLogs">导出诊断日志</System:String>
+	<System:String x:Key="Lang_Btn_ExportConfig">导出配置</System:String>
+	<System:String x:Key="Lang_Btn_ImportConfig">导入配置</System:String>
+	<System:String x:Key="Lang_Card_StartupModeTitle">启动显示模式</System:String>
+	<System:String x:Key="Lang_StartupMode_MainWindow">主窗口</System:String>
+	<System:String x:Key="Lang_StartupMode_FloatingBall">悬浮球</System:String>
+	<System:String x:Key="Lang_About_CheckUpdate">检查更新</System:String>
+	<System:String x:Key="Lang_About_NewVersion">新版本可用</System:String>
+	<System:String x:Key="Lang_About_UpToDate">已是最新版本</System:String>
+	<System:String x:Key="Lang_Log_LogExported">日志已导出</System:String>
+	<System:String x:Key="Lang_Log_ConfigImported">配置已导入，部分更改需重启生效</System:String>
+	<System:String x:Key="Lang_Btn_SwitchToModern">切换到 Material Design 界面</System:String>
+	<System:String x:Key="Lang_Btn_SwitchToClassic">切换回经典界面</System:String>
 </ResourceDictionary>

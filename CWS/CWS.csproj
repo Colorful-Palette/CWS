@@ -21,6 +21,7 @@
 		<Page Remove="Langs\zh-CN.xaml" />
 		<Page Remove="Langs\zh-HK.xaml" />
 		<Page Remove="Langs\zh-TW.xaml" />
+		<Page Remove="Langs\pc-Ba.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +40,9 @@
 		<Content Include="Langs\zh-TW.xaml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<Content Include="Langs\pc-Ba.xaml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,6 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
 		<PackageReference Include="WPF-UI" Version="4.2.0" />
 	</ItemGroup>
 

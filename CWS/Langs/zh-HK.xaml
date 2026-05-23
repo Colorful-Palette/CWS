@@ -10,6 +10,8 @@
     <System:String x:Key="Lang_Btn_Clear">清除背景</System:String>
     <System:String x:Key="Lang_Card_StartupTitle">開機啟動</System:String>
     <System:String x:Key="Lang_Card_StartupDesc">登入 Windows 嗰陣自動執行 CWS</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">自啟入懸浮波</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">開機自啟後直接顯示懸浮波，唔彈主介面</System:String>
     <System:String x:Key="Lang_Card_MonitorTitle">PPT 智能監控</System:String>
     <System:String x:Key="Lang_Card_MonitorDesc">一偵測到 PowerPoint 啟動就自動修復服務</System:String>
     <System:String x:Key="Lang_Label_QuickFix">快速修復</System:String>
@@ -17,9 +19,9 @@
     <System:String x:Key="Lang_Btn_RestartPPT">重啟 PPTService</System:String>
     <System:String x:Key="Lang_Btn_Floating">切換到粒懸浮波</System:String>
     <System:String x:Key="Lang_Card_AssocTitle">文件關聯設定</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">切換 PPT 相關格式嘅開啟方式</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">關聯去 PowerPoint</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">關聯去 WPS</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">切換所有 PPT 格式嘅開啟方式 (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">關聯去 PowerPoint (全部PPT格式)</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">關聯去 WPS (全部PPT格式)</System:String>
     <System:String x:Key="Lang_Btn_RestartExplorer">重新整理 Icon (重啟資源管理器)</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">清除 Icon Cache</System:String>
     <System:String x:Key="Lang_Status_RestartingExp">正喺度重啟資源管理器嚟 Refresh 啲 Icon...</System:String>
@@ -46,4 +48,18 @@
     <System:String x:Key="Lang_BgEdit_BtnConfirm">確定套用</System:String>
     
     <System:String x:Key="Lang_Status_AlreadyRunning">程式已經執行緊，已經幫你切換返去現有視窗</System:String>
+
+    <System:String x:Key="Lang_Btn_ExportLogs">匯出診斷記錄</System:String>
+    <System:String x:Key="Lang_Btn_ExportConfig">匯出設定</System:String>
+    <System:String x:Key="Lang_Btn_ImportConfig">匯入設定</System:String>
+    <System:String x:Key="Lang_Card_StartupModeTitle">啟動顯示模式</System:String>
+    <System:String x:Key="Lang_StartupMode_MainWindow">主視窗</System:String>
+    <System:String x:Key="Lang_StartupMode_FloatingBall">懸浮波</System:String>
+    <System:String x:Key="Lang_About_CheckUpdate">檢查更新</System:String>
+    <System:String x:Key="Lang_About_NewVersion">有新版本可用</System:String>
+    <System:String x:Key="Lang_About_UpToDate">已經係最新版本</System:String>
+    <System:String x:Key="Lang_Log_LogExported">記錄已匯出</System:String>
+    <System:String x:Key="Lang_Log_ConfigImported">設定已匯入，部分變更需要重新啟動先生效</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToModern">切換到 Material Design 介面</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToClassic">切換返經典介面</System:String>
 </ResourceDictionary>

@@ -12,6 +12,8 @@
 
     <System:String x:Key="Lang_Card_StartupTitle">System Startup</System:String>
     <System:String x:Key="Lang_Card_StartupDesc">Run CWS automatically on Windows login</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">Start as floating ball</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">On startup, show the floating ball instead of the main window</System:String>
     <System:String x:Key="Lang_Card_MonitorTitle">Smart Monitor</System:String>
     <System:String x:Key="Lang_Card_MonitorDesc">Auto-fix service when PowerPoint is detected</System:String>
 
@@ -21,9 +23,9 @@
     <System:String x:Key="Lang_Btn_Floating">Switch to Floating Ball</System:String>
 
     <System:String x:Key="Lang_Card_AssocTitle">File Association</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">Switch open methods for PPT related formats</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">Associate with PowerPoint</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">Associate with WPS</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">Switch open methods for ALL PPT formats (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">Associate with PowerPoint (All PPT Formats)</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">Associate with WPS (All PPT Formats)</System:String>
 
     <System:String x:Key="Lang_Btn_RestartExplorer">Refresh Icons (Restart Explorer)</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">Clear Icon Cache</System:String>
@@ -52,4 +54,18 @@
     <System:String x:Key="Lang_BgEdit_BtnConfirm">Apply</System:String>
     
     <System:String x:Key="Lang_Status_AlreadyRunning">CWS is already running. Switched to the existing window.</System:String>
+
+    <System:String x:Key="Lang_Btn_ExportLogs">Export Diagnostic Logs</System:String>
+    <System:String x:Key="Lang_Btn_ExportConfig">Export Config</System:String>
+    <System:String x:Key="Lang_Btn_ImportConfig">Import Config</System:String>
+    <System:String x:Key="Lang_Card_StartupModeTitle">Startup Display Mode</System:String>
+    <System:String x:Key="Lang_StartupMode_MainWindow">Main Window</System:String>
+    <System:String x:Key="Lang_StartupMode_FloatingBall">Floating Ball</System:String>
+    <System:String x:Key="Lang_About_CheckUpdate">Check for Updates</System:String>
+    <System:String x:Key="Lang_About_NewVersion">New version available</System:String>
+    <System:String x:Key="Lang_About_UpToDate">Up to date</System:String>
+    <System:String x:Key="Lang_Log_LogExported">Logs exported successfully</System:String>
+    <System:String x:Key="Lang_Log_ConfigImported">Config imported. Some changes may require restart.</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToModern">Switch to Material Design UI</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToClassic">Switch to Classic UI</System:String>
 </ResourceDictionary>

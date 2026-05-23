@@ -10,6 +10,8 @@
     <System:String x:Key="Lang_Btn_Clear">返璞歸真</System:String>
     <System:String x:Key="Lang_Card_StartupTitle">引擎發動</System:String>
     <System:String x:Key="Lang_Card_StartupDesc">讓 CWS 隨時代巨輪轉動</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">漂浮登場</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">啟動之初，化作漂浮球，不現主場</System:String>
     <System:String x:Key="Lang_Card_MonitorTitle">金睛火眼</System:String>
     <System:String x:Key="Lang_Card_MonitorDesc">PPT 一出，即刻撥亂反正</System:String>
     <System:String x:Key="Lang_Label_QuickFix">急症處理</System:String>
@@ -17,9 +19,9 @@
     <System:String x:Key="Lang_Btn_RestartPPT">重整 PPTService 旗鼓</System:String>
     <System:String x:Key="Lang_Btn_Floating">幻化作漂浮球</System:String>
     <System:String x:Key="Lang_Card_AssocTitle">正名定位</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">決定誰是這文件的真命天子</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">獨尊 PowerPoint</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">割據予 WPS</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">決定誰是天下格式的真命天子 (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">獨尊 PowerPoint (天下格式)</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">割據予 WPS (天下格式)</System:String>
     <System:String x:Key="Lang_Btn_RestartExplorer">喚醒伟大同志</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">洗心革面</System:String>
     <System:String x:Key="Lang_Status_RestartingExp">伟大同志正處於黎明前的黑暗...</System:String>
@@ -44,4 +46,18 @@
     <System:String x:Key="Lang_BgEdit_BtnConfirm">塵埃落定</System:String>
     
     <System:String x:Key="Lang_Status_AlreadyRunning">你只能有一个头</System:String>
+
+    <System:String x:Key="Lang_Btn_ExportLogs">筆錄存檔</System:String>
+    <System:String x:Key="Lang_Btn_ExportConfig">錦囊打包</System:String>
+    <System:String x:Key="Lang_Btn_ImportConfig">錦囊解封</System:String>
+    <System:String x:Key="Lang_Card_StartupModeTitle">登場姿態</System:String>
+    <System:String x:Key="Lang_StartupMode_MainWindow">主場降臨</System:String>
+    <System:String x:Key="Lang_StartupMode_FloatingBall">漂浮顯聖</System:String>
+    <System:String x:Key="Lang_About_CheckUpdate">探聽天機</System:String>
+    <System:String x:Key="Lang_About_NewVersion">天機已現</System:String>
+    <System:String x:Key="Lang_About_UpToDate">與世同步</System:String>
+    <System:String x:Key="Lang_Log_LogExported">筆錄已然存檔</System:String>
+    <System:String x:Key="Lang_Log_ConfigImported">錦囊已解，或需重整旗鼓方見其效</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToModern">改頭換面</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToClassic">返璞歸真</System:String>
 </ResourceDictionary>

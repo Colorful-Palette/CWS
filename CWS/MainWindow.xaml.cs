@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Markup;
+using CWS.Services;
 
 namespace CWS
 {
@@ -67,6 +68,7 @@ namespace CWS
             catch (Exception ex)
             {
                 Debug.WriteLine($"切換語言失敗: {ex.Message}");
+                Logger.Error($"Language switch failed: {ex.Message}");
             }
         }
 
@@ -85,9 +87,29 @@ namespace CWS
                 ApplyLanguage(selected.Tag.ToString()!);
             }
 
+            // 初始化启动模式 RadioButton
+            if (Properties.Settings.Default.StartAsFloating)
+                rbStartupFloatingBall.IsChecked = true;
+            else
+                rbStartupMainWindow.IsChecked = true;
+
             if (FindResource("WindowOnLoadStoryboard") is Storyboard sb)
             {
                 sb.Begin();
+            }
+
+            // 處理啟動時直接進入懸浮球模式
+            if (Application.Current.Properties["StartMinimized"] is true)
+            {
+                Application.Current.Properties["StartMinimized"] = false;
+                _isSwitchingToFloating = true;
+                this.Hide();
+                _floatingBall.Left = SystemParameters.WorkArea.Width - 120;
+                _floatingBall.Top = SystemParameters.WorkArea.Height - 120;
+                _floatingBall.Topmost = true;
+                _floatingBall.Show();
+                _isSwitchingToFloating = false;
+                Logger.Info("Started in floating ball mode (auto)");
             }
         }
 
@@ -224,12 +246,30 @@ namespace CWS
         private void chkRunAtStartup_Checked(object sender, RoutedEventArgs e) => UpdateAutoStart(true);
         private void chkRunAtStartup_Unchecked(object sender, RoutedEventArgs e) => UpdateAutoStart(false);
 
+        private void StartupMode_Changed(object sender, RoutedEventArgs e)
+        {
+            bool isFloating = rbStartupFloatingBall?.IsChecked == true;
+            Properties.Settings.Default.StartAsFloating = isFloating;
+            Properties.Settings.Default.Save();
+
+            // 同步到註冊表
+            try
+            {
+                using (var key = Registry.CurrentUser.CreateSubKey(@"Software\CWS"))
+                {
+                    key?.SetValue("StartAsFloating", isFloating ? 1 : 0);
+                }
+            }
+            catch { }
+        }
+
         // 2. 關聯修復邏輯
         private void btnSetPPT_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("正在掃描並關聯...");
             FileAssociationScanner.AutoFixAssociation(false);
             SetStatus("已關聯 PowerPoint");
+            Logger.Info("File association switched to PowerPoint (all PPT formats)");
         }
 
         private void btnSetWPS_Click(object sender, RoutedEventArgs e)
@@ -237,6 +277,7 @@ namespace CWS
             SetStatus("正在掃描並關聯...");
             FileAssociationScanner.AutoFixAssociation(true);
             SetStatus("已關聯 WPS Office");
+            Logger.Info("File association switched to WPS (all PPT formats)");
         }
 
         // 3. 服務清理與重啟邏輯
@@ -244,11 +285,13 @@ namespace CWS
         {
             RestartPPTService();
             SetStatus("服務已嘗試重啟");
+            Logger.Info("PPTService restart requested");
         }
 
         private void btnCleanWPS_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("正在清理...");
+            Logger.Info("WPS cleanup started");
             Task.Run(() => {
                 string[] procs = { "wps", "et", "wpp", "PPTService" };
                 foreach (var name in procs)
@@ -260,6 +303,7 @@ namespace CWS
                 }
                 RestartPPTService();
                 SetStatus("清理完成");
+                Logger.Info("WPS cleanup completed");
             });
         }
 
@@ -307,6 +351,7 @@ namespace CWS
             _floatingBall.Topmost = true;
             _floatingBall.Show();
             _isSwitchingToFloating = false;
+            Logger.Info("Switched to floating ball mode");
         }
 
         private void RestoreFromFloatingBall()
@@ -315,6 +360,7 @@ namespace CWS
             this.Show();
             this.WindowState = WindowState.Normal;
             this.Activate();
+            Logger.Info("Restored main window from floating ball");
         }
 
         private void btnRestartExplorer_Click(object sender, RoutedEventArgs e)
@@ -331,8 +377,9 @@ namespace CWS
                 }
                 Process.Start("explorer.exe");
                 SetStatus(done);
+                Logger.Info("Explorer restarted for icon refresh");
             }
-            catch (Exception ex) { SetStatus("Error: " + ex.Message); }
+            catch (Exception ex) { SetStatus("Error: " + ex.Message); Logger.Error($"Explorer restart failed: {ex.Message}"); }
         }
 
         private void btnCleanIconCache_Click(object sender, RoutedEventArgs e)
@@ -351,12 +398,124 @@ namespace CWS
                 if (File.Exists(cachePath)) { try { File.Delete(cachePath); } catch { } }
                 Process.Start("explorer.exe");
                 SetStatus(done);
+                Logger.Info("Icon cache cleaned and explorer restarted");
             }
-            catch (Exception ex) { SetStatus("Failed: " + ex.Message); Process.Start("explorer.exe"); }
+            catch (Exception ex) { SetStatus("Failed: " + ex.Message); Process.Start("explorer.exe"); Logger.Error($"Icon cache clean failed: {ex.Message}"); }
         }
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
         private void OnClose_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
+
+        // --- 診斷日誌導出 ---
+        private void btnExportLogs_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                Title = Application.Current.TryFindResource("Lang_Btn_ExportLogs")?.ToString() ?? "Export Diagnostic Logs",
+                Filter = "Log Files (*.log)|*.log|All Files (*.*)|*.*",
+                DefaultExt = ".log",
+                FileName = $"cws-diagnostics-{DateTime.Now:yyyy-MM-dd}.log"
+            };
+            if (dlg.ShowDialog() == true)
+            {
+                File.WriteAllText(dlg.FileName, Logger.ExportLogs());
+                SetStatus(Application.Current.TryFindResource("Lang_Log_LogExported")?.ToString() ?? "Logs exported");
+                Logger.Info("Diagnostic logs exported");
+            }
+        }
+
+        // --- 配置導入導出 ---
+        private void btnExportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                Title = "Export Configuration",
+                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*",
+                DefaultExt = ".cwsconfig",
+                FileName = "CWS_Config.cwsconfig"
+            };
+            if (dlg.ShowDialog() == true)
+            {
+                ConfigManager.ExportConfig(dlg.FileName);
+                Logger.Info("Configuration exported");
+                SetStatus("Config exported");
+            }
+        }
+
+        private void btnImportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+            {
+                Title = "Import Configuration",
+                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*"
+            };
+            if (dlg.ShowDialog() == true)
+            {
+                if (ConfigManager.ImportConfig(dlg.FileName))
+                {
+                    Logger.Info("Configuration imported");
+                    SetStatus(Application.Current.TryFindResource("Lang_Log_ConfigImported")?.ToString() ?? "Config imported. Some changes may require restart.");
+                }
+                else
+                {
+                    SetStatus("Import failed - invalid config file");
+                }
+            }
+        }
+
+        // --- 自動更新檢查 ---
+        private string? _latestReleaseUrl = null;
+
+        private async void btnCheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            btnCheckUpdate.IsEnabled = false;
+            btnCheckUpdate.Content = "...";
+            Logger.Info("Checking for updates...");
+
+            var (hasUpdate, latestVersion, releaseUrl) = await UpdateChecker.CheckForUpdateAsync();
+
+            btnCheckUpdate.IsEnabled = true;
+            btnCheckUpdate.Content = Application.Current.TryFindResource("Lang_About_CheckUpdate")?.ToString() ?? "Check for Updates";
+
+            if (hasUpdate && latestVersion != null)
+            {
+                string newVer = Application.Current.TryFindResource("Lang_About_NewVersion")?.ToString() ?? "New version available";
+                txtUpdateStatus.Text = $"{newVer}: v{latestVersion}";
+                txtUpdateStatus.Visibility = Visibility.Visible;
+                _latestReleaseUrl = releaseUrl;
+                Logger.Info($"Update available: v{latestVersion}");
+            }
+            else
+            {
+                string upToDate = Application.Current.TryFindResource("Lang_About_UpToDate")?.ToString() ?? "Up to date";
+                txtUpdateStatus.Text = $"{upToDate} (v{UpdateChecker.CurrentVersion})";
+                txtUpdateStatus.Visibility = Visibility.Visible;
+                _latestReleaseUrl = null;
+            }
+        }
+
+        private void txtUpdateStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(_latestReleaseUrl))
+            {
+                try { Process.Start(new ProcessStartInfo(_latestReleaseUrl) { UseShellExecute = true }); }
+                catch { }
+            }
+        }
+
+        // --- 切換到 Material Design 界面 ---
+        private void btnSwitchToModern_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.UseModernUI = true;
+            Properties.Settings.Default.Save();
+            Logger.Info("Switching to Material Design UI");
+
+            var modernWindow = new ModernWindow();
+            modernWindow.Show();
+
+            _isSwitchingToFloating = true;
+            this.Close();
+        }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {

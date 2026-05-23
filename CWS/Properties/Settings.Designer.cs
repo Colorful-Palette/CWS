@@ -58,5 +58,41 @@ namespace CWS.Properties {
                 this["BgOpacity"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartAsFloating {
+            get {
+                return ((bool)(this["StartAsFloating"]));
+            }
+            set {
+                this["StartAsFloating"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PPTServiceExePath {
+            get {
+                return ((string)(this["PPTServiceExePath"]));
+            }
+            set {
+                this["PPTServiceExePath"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseModernUI {
+            get {
+                return ((bool)(this["UseModernUI"]));
+            }
+            set {
+                this["UseModernUI"] = value;
+            }
+        }
     }
 }

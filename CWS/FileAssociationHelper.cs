@@ -35,14 +35,35 @@ namespace CWS
                     // 切换到 WPS ( WPS ProgID  版本2019)
                     RunSetUserFTA(ftaExePath, ".pptx", "WPP.PPTX.6");
                     RunSetUserFTA(ftaExePath, ".ppt", "WPP.PPT.6");
+                    RunSetUserFTA(ftaExePath, ".ppsx", "WPP.PPSX.6");
+                    RunSetUserFTA(ftaExePath, ".pps", "WPP.PPS.6");
+                    RunSetUserFTA(ftaExePath, ".potx", "WPP.POTX.6");
+                    RunSetUserFTA(ftaExePath, ".pot", "WPP.POT.6");
+                    RunSetUserFTA(ftaExePath, ".pptm", "WPP.PPTM.6");
+                    RunSetUserFTA(ftaExePath, ".ppsm", "WPP.PPSM.6");
+                    RunSetUserFTA(ftaExePath, ".potm", "WPP.POTM.6");
                 }
                 else
                 {
                     // 切换到 PowerPoint
                     DefineProgIdPath("PowerPoint.Show.12", OFFICE_PPT_EXE);
                     DefineProgIdPath("PowerPoint.Show.8", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.14", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.7", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.20", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.4", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.13", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.15", OFFICE_PPT_EXE);
+                    DefineProgIdPath("PowerPoint.Show.21", OFFICE_PPT_EXE);
                     RunSetUserFTA(ftaExePath, ".pptx", "PowerPoint.Show.12");
                     RunSetUserFTA(ftaExePath, ".ppt", "PowerPoint.Show.8");
+                    RunSetUserFTA(ftaExePath, ".ppsx", "PowerPoint.Show.14");
+                    RunSetUserFTA(ftaExePath, ".pps", "PowerPoint.Show.7");
+                    RunSetUserFTA(ftaExePath, ".potx", "PowerPoint.Show.20");
+                    RunSetUserFTA(ftaExePath, ".pot", "PowerPoint.Show.4");
+                    RunSetUserFTA(ftaExePath, ".pptm", "PowerPoint.Show.13");
+                    RunSetUserFTA(ftaExePath, ".ppsm", "PowerPoint.Show.15");
+                    RunSetUserFTA(ftaExePath, ".potm", "PowerPoint.Show.21");
                 }
                 SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
                 return true;
