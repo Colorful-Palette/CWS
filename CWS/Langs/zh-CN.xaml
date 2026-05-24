@@ -19,9 +19,9 @@
     <System:String x:Key="Lang_Btn_RestartPPT">重启 PPTService</System:String>
     <System:String x:Key="Lang_Btn_Floating">切换至悬浮球</System:String>
     <System:String x:Key="Lang_Card_AssocTitle">文件关联</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">切换所有PPT格式的打开方式 (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">关联为 PowerPoint (全部PPT格式)</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">关联为 WPS (全部PPT格式)</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">切换所有PPT格式的打开方式</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">关联为 PowerPoint</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">关联为 WPS</System:String>
     <System:String x:Key="Lang_Btn_RestartExplorer">刷新图标 (重启资源管理器)</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">清除图标缓存</System:String>
     <System:String x:Key="Lang_Status_RestartingExp">正在重启资源管理器以刷新图标...</System:String>
