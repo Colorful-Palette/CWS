@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
@@ -8,7 +8,12 @@
 		<UseWPF>true</UseWPF>
 		<TargetPlatformControls>true</TargetPlatformControls>
 		<AssemblyName>CWS</AssemblyName>
-  	    <ApplicationIcon>icon.ico</ApplicationIcon>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<ManualMinor>4</ManualMinor>
+		<Version>0.$(ManualMinor).$([System.DateTime]::UtcNow.ToString("yyMMdd")).$([System.DateTime]::UtcNow.ToString("HHmm"))</Version>
+		<AssemblyVersion>0.0.0.0</AssemblyVersion>
+		<FileVersion>0.0.0.0</FileVersion>
+		<InformationalVersion>v0.$(ManualMinor)-$([System.DateTime]::UtcNow.ToString("HHmm"))($([System.DateTime]::UtcNow.ToString("yyMMdd")))</InformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,6 +26,7 @@
 		<Page Remove="Langs\zh-CN.xaml" />
 		<Page Remove="Langs\zh-HK.xaml" />
 		<Page Remove="Langs\zh-TW.xaml" />
+		<Page Remove="Langs\pc-Ba.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +45,9 @@
 		<Content Include="Langs\zh-TW.xaml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<Content Include="Langs\pc-Ba.xaml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
 		<PackageReference Include="WPF-UI" Version="4.2.0" />
 	</ItemGroup>
 

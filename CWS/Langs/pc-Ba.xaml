@@ -21,9 +21,9 @@
     <System:String x:Key="Lang_Btn_Floating">[!!!Šwìþçh tö ßïöäþìñğ ßäìì!!!]</System:String>
 
     <System:String x:Key="Lang_Card_AssocTitle">[!!!Fììé Äššöçìäþìöñ!!!]</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">[!!!Šwìþçh þhé wäÿ ÞÞÞ ßöŕmäþ äŕé öþéñéð!!!]</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">[!!!Šéþ PowerPoint!!!]</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">[!!!Šéþ WPS!!!]</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">[!!!Šwìþçh þhé wäÿ ÄŁŁ ÞÞÞ ßöŕmäþš äŕé öþéñéð!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">[!!!Šéþ PowerPoint (ÄŁŁ ÞÞÞ Föŕmäþš)!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">[!!!Šéþ WPS (ÄŁŁ ÞÞÞ Föŕmäþš)!!!]</System:String>
 
     <System:String x:Key="Lang_Btn_RestartExplorer">[!!!Ŕéƒŕéšh Ìçöñš (Ŕéšþäŕþ Éxþlöŕéŕ)!!!]</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">[!!!Çléäŕ Ìçöñ Çäçhé!!!]</System:String>
@@ -50,4 +50,58 @@
     <System:String x:Key="Lang_BgEdit_BtnReset">[!!!Ŕéšéþ!!!]</System:String>
     <System:String x:Key="Lang_BgEdit_BtnCancel">[!!!Çäñçéì!!!]</System:String>
     <System:String x:Key="Lang_BgEdit_BtnConfirm">[!!!Äþþìÿ!!!]</System:String>
+
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">[!!!Šþäŕþ äš ƒlöäþìñğ ßäìì!!!]</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">[!!!Öñ šþäŕþûþ, šhöw þhé ƒlöäþìñğ ßäìì ìñšþéäð!!!]</System:String>
+    <System:String x:Key="Lang_Status_AlreadyRunning">[!!!ÇWŠ ìš älŕéäðÿ ŕûññìñğ. Šwìþçhéð þö éxìšþìñğ wìñðöw.!!!]</System:String>
+
+    <System:String x:Key="Lang_Btn_ExportLogs">[!!!Éxþöŕþ Öìäğñöšþìç Łöğš!!!]</System:String>
+    <System:String x:Key="Lang_Btn_ExportConfig">[!!!Éxþöŕþ Çöñƒìğ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_ImportConfig">[!!!Ìmþöŕþ Çöñƒìğ!!!]</System:String>
+    <System:String x:Key="Lang_Label_Language">[!!!Łäñğûäğé!!!]</System:String>
+    <System:String x:Key="Lang_Card_StartupModeTitle">[!!!Šþäŕþûþ Öìšþìäÿ Möðé!!!]</System:String>
+    <System:String x:Key="Lang_StartupMode_MainWindow">[!!!Mäìñ Wìñðöw!!!]</System:String>
+    <System:String x:Key="Lang_StartupMode_FloatingBall">[!!!Fìöäþìñğ ßäìì!!!]</System:String>
+    <System:String x:Key="Lang_About_CheckUpdate">[!!!Çhéçk ƒöŕ Ûþðäþéš!!!]</System:String>
+    <System:String x:Key="Lang_About_NewVersion">[!!!Ñéw véŕšìöñ äväìläßìé!!!]</System:String>
+    <System:String x:Key="Lang_About_UpToDate">[!!!Ûþ þö ðäþé!!!]</System:String>
+    <System:String x:Key="Lang_Log_LogExported">[!!!Łöğš éxþöŕþéð šûççéššƒûììÿ!!!]</System:String>
+    <System:String x:Key="Lang_Log_ConfigImported">[!!!Çöñƒìğ ìmþöŕþéð. Šömé çhäñğéš mäÿ ŕéqûìŕé ŕéšþäŕþ.!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToModern">[!!!Šwìþçh þö Mäþéŕìäì Öéšìğñ ÛÌ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToClassic">[!!!Šwìþçh þö Çìäššìç ÛÌ!!!]</System:String>
+    <System:String x:Key="Lang_Nav_DocOpt">[!!!Ðöçûméñþ Öþþìmìžäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Nav_AssocCenter">[!!!Äššöçìäþìöñ Çéñþéŕ!!!]</System:String>
+    <System:String x:Key="Lang_Nav_ThemeUrl">[!!!Þhémé &amp; ÛŔŁ!!!]</System:String>
+    <System:String x:Key="Lang_Label_PptSwitch">[!!!ÞÞÞ Šwìþçh!!!]</System:String>
+    <System:String x:Key="Lang_Label_WordSwitch">[!!!Wöŕð Šwìþçh!!!]</System:String>
+    <System:String x:Key="Lang_Label_ExcelSwitch">[!!!Éxçéì Šwìþçh!!!]</System:String>
+    <System:String x:Key="Lang_Label_PdfSwitch">[!!!ÞÐF Šwìþçh!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToPpt">[!!!Šwìþçh þö Mìçŕöšöƒþ ÞöwéŕÞöìñþ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToWpsPpt">[!!!Šwìþçh þö WÞŠ Þŕéšéñþäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToOffice">[!!!Šwìþçh þö Mìçŕöšöƒþ Öƒƒìçé!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToWps">[!!!Šwìþçh þö WÞŠ Öƒƒìçé!!!]</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToEdge">[!!!Šwìþçh þö Mìçŕöšöƒþ Éðğé!!!]</System:String>
+    <System:String x:Key="Lang_Label_SystemRepair">[!!!Šÿšþém Ŕéþäìŕ Þööìš!!!]</System:String>
+    <System:String x:Key="Lang_Label_WordAssoc">[!!!Wöŕð Äššöçìäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Label_ExcelAssoc">[!!!Éxçéì Äššöçìäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Label_PdfAssoc">[!!!ÞÐF Äššöçìäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Label_TargetApp">[!!!Þäŕğéþ Äþþ!!!]</System:String>
+    <System:String x:Key="Lang_Btn_ApplySelectedAssoc">[!!!Äþþìÿ Šéìéçþéð Äššöçìäþìöñš!!!]</System:String>
+    <System:String x:Key="Lang_Label_Theme">[!!!Þhémé!!!]</System:String>
+    <System:String x:Key="Lang_Theme_Light">[!!!Łìğhþ!!!]</System:String>
+    <System:String x:Key="Lang_Theme_Dark">[!!!Ðäŕk!!!]</System:String>
+    <System:String x:Key="Lang_Label_UrlInvoke">[!!!ÛŔŁ Ìñvöké!!!]</System:String>
+    <System:String x:Key="Lang_Label_UrlInvokeTip">[!!!Šûþþöŕþš hþþþ/hþþþš, çûšþöm šçhéméš, äñð ƒììé://!!!]</System:String>
+    <System:String x:Key="Lang_Btn_InvokeUrl">[!!!Ìñvöké ÛŔŁ!!!]</System:String>
+    <System:String x:Key="Lang_Label_MonetTheme">[!!!Möñéþ Þhéméš!!!]</System:String>
+    <System:String x:Key="Lang_ThemePreset_WaterLilies">[!!!Möñéþ · Wäþéŕ Łìììéš!!!]</System:String>
+    <System:String x:Key="Lang_ThemePreset_Sunrise">[!!!Möñéþ · Šûñŕìšé!!!]</System:String>
+    <System:String x:Key="Lang_ThemePreset_Garden">[!!!Möñéþ · Gäŕðéñ!!!]</System:String>
+    <System:String x:Key="Lang_ThemePreset_Twilight">[!!!Möñéþ · Þwìììğhþ!!!]</System:String>
+    <System:String x:Key="Lang_Dialog_ExportConfigTitle">[!!!Éxþöŕþ Çöñƒìğûŕäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Dialog_ImportConfigTitle">[!!!Ìmþöŕþ Çöñƒìğûŕäþìöñ!!!]</System:String>
+    <System:String x:Key="Lang_Dialog_ConfigFileFilter">[!!!ÇWŠ Çöñƒìğ Fììéš (*.cwsconfig)|*.cwsconfig|Äìì Fììéš (*.*)|*.*!!!]</System:String>
+    <System:String x:Key="Lang_Dialog_ConfigDefaultFileName">[!!!ÇWŠ_Çöñƒìğ.cwsconfig!!!]</System:String>
+    <System:String x:Key="Lang_Status_ConfigExported">[!!!Çöñƒìğ éxþöŕþéð!!!]</System:String>
+    <System:String x:Key="Lang_Status_ConfigImportFailed">[!!!Ìmþöŕþ ƒäììéð - ìñväììð çöñƒìğ ƒììé!!!]</System:String>
 </ResourceDictionary>

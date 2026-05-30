@@ -8,8 +8,41 @@
     <Setting Name="BackgroundImagePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="StartAsFloating" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PPTServiceExePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="BgOpacity" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.3</Value>
+    </Setting>
+    <Setting Name="UseModernUI" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AssocWordTarget" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Office</Value>
+    </Setting>
+    <Setting Name="AssocExcelTarget" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Office</Value>
+    </Setting>
+    <Setting Name="AssocPdfTarget" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Edge</Value>
+    </Setting>
+    <Setting Name="AssocWordSuffixes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.doc;.docx;.docm;.dot;.dotx;.dotm</Value>
+    </Setting>
+    <Setting Name="AssocExcelSuffixes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.xls;.xlsx;.xlsm;.xlt;.xltx;.xltm</Value>
+    </Setting>
+    <Setting Name="AssocPdfSuffixes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.pdf</Value>
+    </Setting>
+    <Setting Name="LastInvokeUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ThemePreset" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MonetWaterLilies</Value>
     </Setting>
   </Settings>
 </SettingsFile>

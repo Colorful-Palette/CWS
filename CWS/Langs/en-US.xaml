@@ -12,6 +12,8 @@
 
     <System:String x:Key="Lang_Card_StartupTitle">System Startup</System:String>
     <System:String x:Key="Lang_Card_StartupDesc">Run CWS automatically on Windows login</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingTitle">Start as floating ball</System:String>
+    <System:String x:Key="Lang_Card_StartupFloatingDesc">On startup, show the floating ball instead of the main window</System:String>
     <System:String x:Key="Lang_Card_MonitorTitle">Smart Monitor</System:String>
     <System:String x:Key="Lang_Card_MonitorDesc">Auto-fix service when PowerPoint is detected</System:String>
 
@@ -21,9 +23,9 @@
     <System:String x:Key="Lang_Btn_Floating">Switch to Floating Ball</System:String>
 
     <System:String x:Key="Lang_Card_AssocTitle">File Association</System:String>
-    <System:String x:Key="Lang_Card_AssocDesc">Switch open methods for PPT related formats</System:String>
-    <System:String x:Key="Lang_Btn_SetPPT">Associate with PowerPoint</System:String>
-    <System:String x:Key="Lang_Btn_SetWPS">Associate with WPS</System:String>
+    <System:String x:Key="Lang_Card_AssocDesc">Switch open methods for ALL PPT formats (.pptx/.ppt/.ppsx/.pps/.potx/.pot/.pptm/.ppsm/.potm)</System:String>
+    <System:String x:Key="Lang_Btn_SetPPT">Associate with PowerPoint (All PPT Formats)</System:String>
+    <System:String x:Key="Lang_Btn_SetWPS">Associate with WPS (All PPT Formats)</System:String>
 
     <System:String x:Key="Lang_Btn_RestartExplorer">Refresh Icons (Restart Explorer)</System:String>
     <System:String x:Key="Lang_Btn_CleanCache">Clear Icon Cache</System:String>
@@ -52,4 +54,54 @@
     <System:String x:Key="Lang_BgEdit_BtnConfirm">Apply</System:String>
     
     <System:String x:Key="Lang_Status_AlreadyRunning">CWS is already running. Switched to the existing window.</System:String>
+
+    <System:String x:Key="Lang_Btn_ExportLogs">Export Diagnostic Logs</System:String>
+    <System:String x:Key="Lang_Btn_ExportConfig">Export Config</System:String>
+    <System:String x:Key="Lang_Btn_ImportConfig">Import Config</System:String>
+    <System:String x:Key="Lang_Label_Language">Language</System:String>
+    <System:String x:Key="Lang_Card_StartupModeTitle">Startup Display Mode</System:String>
+    <System:String x:Key="Lang_StartupMode_MainWindow">Main Window</System:String>
+    <System:String x:Key="Lang_StartupMode_FloatingBall">Floating Ball</System:String>
+    <System:String x:Key="Lang_About_CheckUpdate">Check for Updates</System:String>
+    <System:String x:Key="Lang_About_NewVersion">New version available</System:String>
+    <System:String x:Key="Lang_About_UpToDate">Up to date</System:String>
+    <System:String x:Key="Lang_Log_LogExported">Logs exported successfully</System:String>
+    <System:String x:Key="Lang_Log_ConfigImported">Config imported. Some changes may require restart.</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToModern">Switch to Material Design UI</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToClassic">Switch to Classic UI</System:String>
+    <System:String x:Key="Lang_Nav_DocOpt">Document Optimization</System:String>
+    <System:String x:Key="Lang_Nav_AssocCenter">Association Center</System:String>
+    <System:String x:Key="Lang_Nav_ThemeUrl">Theme &amp; URL</System:String>
+    <System:String x:Key="Lang_Label_PptSwitch">PPT Switch</System:String>
+    <System:String x:Key="Lang_Label_WordSwitch">Word Switch</System:String>
+    <System:String x:Key="Lang_Label_ExcelSwitch">Excel Switch</System:String>
+    <System:String x:Key="Lang_Label_PdfSwitch">PDF Switch</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToPpt">Switch to Microsoft PowerPoint</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToWpsPpt">Switch to WPS Presentation</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToOffice">Switch to Microsoft Office</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToWps">Switch to WPS Office</System:String>
+    <System:String x:Key="Lang_Btn_SwitchToEdge">Switch to Microsoft Edge</System:String>
+    <System:String x:Key="Lang_Label_SystemRepair">System Repair Tools</System:String>
+    <System:String x:Key="Lang_Label_WordAssoc">Word Association</System:String>
+    <System:String x:Key="Lang_Label_ExcelAssoc">Excel Association</System:String>
+    <System:String x:Key="Lang_Label_PdfAssoc">PDF Association</System:String>
+    <System:String x:Key="Lang_Label_TargetApp">Target App</System:String>
+    <System:String x:Key="Lang_Btn_ApplySelectedAssoc">Apply Selected Associations</System:String>
+    <System:String x:Key="Lang_Label_Theme">Theme</System:String>
+    <System:String x:Key="Lang_Theme_Light">Light</System:String>
+    <System:String x:Key="Lang_Theme_Dark">Dark</System:String>
+    <System:String x:Key="Lang_Label_UrlInvoke">URL Invoke</System:String>
+    <System:String x:Key="Lang_Label_UrlInvokeTip">Supports http/https, custom schemes, and file://</System:String>
+    <System:String x:Key="Lang_Btn_InvokeUrl">Invoke URL</System:String>
+    <System:String x:Key="Lang_Label_MonetTheme">Monet Themes</System:String>
+    <System:String x:Key="Lang_ThemePreset_WaterLilies">Monet · Water Lilies</System:String>
+    <System:String x:Key="Lang_ThemePreset_Sunrise">Monet · Sunrise</System:String>
+    <System:String x:Key="Lang_ThemePreset_Garden">Monet · Garden</System:String>
+    <System:String x:Key="Lang_ThemePreset_Twilight">Monet · Twilight</System:String>
+    <System:String x:Key="Lang_Dialog_ExportConfigTitle">Export Configuration</System:String>
+    <System:String x:Key="Lang_Dialog_ImportConfigTitle">Import Configuration</System:String>
+    <System:String x:Key="Lang_Dialog_ConfigFileFilter">CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*</System:String>
+    <System:String x:Key="Lang_Dialog_ConfigDefaultFileName">CWS_Config.cwsconfig</System:String>
+    <System:String x:Key="Lang_Status_ConfigExported">Config exported</System:String>
+    <System:String x:Key="Lang_Status_ConfigImportFailed">Import failed - invalid config file</System:String>
 </ResourceDictionary>
