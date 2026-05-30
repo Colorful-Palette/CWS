@@ -15,7 +15,15 @@ namespace CWS.Services
                 ["BackgroundImagePath"] = Properties.Settings.Default.BackgroundImagePath,
                 ["StartAsFloating"] = Properties.Settings.Default.StartAsFloating,
                 ["PPTServiceExePath"] = Properties.Settings.Default.PPTServiceExePath,
-                ["BgOpacity"] = Properties.Settings.Default.BgOpacity
+                ["BgOpacity"] = Properties.Settings.Default.BgOpacity,
+                ["AssocWordTarget"] = Properties.Settings.Default.AssocWordTarget,
+                ["AssocExcelTarget"] = Properties.Settings.Default.AssocExcelTarget,
+                ["AssocPdfTarget"] = Properties.Settings.Default.AssocPdfTarget,
+                ["AssocWordSuffixes"] = Properties.Settings.Default.AssocWordSuffixes,
+                ["AssocExcelSuffixes"] = Properties.Settings.Default.AssocExcelSuffixes,
+                ["AssocPdfSuffixes"] = Properties.Settings.Default.AssocPdfSuffixes,
+                ["LastInvokeUrl"] = Properties.Settings.Default.LastInvokeUrl,
+                ["ThemePreset"] = Properties.Settings.Default.ThemePreset
             };
             string json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
@@ -39,6 +47,23 @@ namespace CWS.Services
                     Properties.Settings.Default.PPTServiceExePath = pptPath.GetString() ?? "";
                 if (config.TryGetValue("BgOpacity", out var opacity))
                     Properties.Settings.Default.BgOpacity = opacity.GetDouble();
+
+                if (config.TryGetValue("AssocWordTarget", out var wordTarget) && wordTarget.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocWordTarget = wordTarget.GetString() ?? "Office";
+                if (config.TryGetValue("AssocExcelTarget", out var excelTarget) && excelTarget.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocExcelTarget = excelTarget.GetString() ?? "Office";
+                if (config.TryGetValue("AssocPdfTarget", out var pdfTarget) && pdfTarget.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocPdfTarget = pdfTarget.GetString() ?? "Edge";
+                if (config.TryGetValue("AssocWordSuffixes", out var wordSuffixes) && wordSuffixes.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocWordSuffixes = wordSuffixes.GetString() ?? ".doc;.docx;.docm;.dot;.dotx;.dotm";
+                if (config.TryGetValue("AssocExcelSuffixes", out var excelSuffixes) && excelSuffixes.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocExcelSuffixes = excelSuffixes.GetString() ?? ".xls;.xlsx;.xlsm;.xlt;.xltx;.xltm";
+                if (config.TryGetValue("AssocPdfSuffixes", out var pdfSuffixes) && pdfSuffixes.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.AssocPdfSuffixes = pdfSuffixes.GetString() ?? ".pdf";
+                if (config.TryGetValue("LastInvokeUrl", out var lastUrl) && lastUrl.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.LastInvokeUrl = lastUrl.GetString() ?? "";
+                if (config.TryGetValue("ThemePreset", out var themePreset) && themePreset.ValueKind == JsonValueKind.String)
+                    Properties.Settings.Default.ThemePreset = themePreset.GetString() ?? "MonetWaterLilies";
 
                 Properties.Settings.Default.Save();
                 return true;

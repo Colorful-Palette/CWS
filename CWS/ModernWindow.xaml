@@ -19,13 +19,21 @@
         <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FFFFFF"/>
         <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
         <SolidColorBrush x:Key="AccentHoverBrush" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="AccentPressedBrush" Color="#1E40AF"/>
         <SolidColorBrush x:Key="AccentLightBrush" Color="#EFF6FF"/>
         <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1E293B"/>
         <SolidColorBrush x:Key="TextSecondaryBrush" Color="#64748B"/>
+        <SolidColorBrush x:Key="TextOnAccentBrush" Color="#FFFFFF"/>
         <SolidColorBrush x:Key="BorderLightBrush" Color="#E2E8F0"/>
         <SolidColorBrush x:Key="BorderCardBrush" Color="#E8ECF0"/>
+        <SolidColorBrush x:Key="DividerBrush" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="WindowFrameBorderBrush" Color="#E0E4E8"/>
         <SolidColorBrush x:Key="DangerBrush" Color="#EF4444"/>
         <SolidColorBrush x:Key="DangerHoverBrush" Color="#DC2626"/>
+        <SolidColorBrush x:Key="SubtlePanelBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="DangerSurfaceBrush" Color="#FEF2F2"/>
+        <SolidColorBrush x:Key="DangerBorderBrush" Color="#FECACA"/>
+        <SolidColorBrush x:Key="DangerTextBrush" Color="#DC2626"/>
 
         <!-- Title Bar Button Style -->
         <Style x:Key="TitleBarButtonStyle" TargetType="Button">
@@ -33,7 +41,7 @@
             <Setter Property="Height" Value="32"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -45,11 +53,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#F1F5F9"/>
-                                <Setter Property="Foreground" Value="#1E293B"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#E2E8F0"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource BorderLightBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -59,7 +67,7 @@
 
         <!-- Close Button Style -->
         <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource TitleBarButtonStyle}">
-            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -68,11 +76,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#EF4444"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource DangerBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextOnAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#DC2626"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource DangerHoverBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -89,7 +97,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
                         <Border x:Name="Track" CornerRadius="12" Background="#CBD5E1" Width="44" Height="24">
-                            <Border x:Name="Thumb" CornerRadius="10" Background="#FFFFFF" Width="20" Height="20"
+                            <Border x:Name="Thumb" CornerRadius="10" Background="{StaticResource CardBackgroundBrush}" Width="20" Height="20"
                                     HorizontalAlignment="Left" Margin="2,0,0,0"
                                     RenderTransformOrigin="0.5,0.5">
                                 <Border.RenderTransform>
@@ -102,7 +110,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Track" Property="Background" Value="#2563EB"/>
+                                <Setter TargetName="Track" Property="Background" Value="{StaticResource AccentBrush}"/>
                                 <Setter TargetName="Thumb" Property="RenderTransform">
                                     <Setter.Value>
                                         <TranslateTransform X="20"/>
@@ -120,6 +128,14 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
+        <!-- Language ListBox Style -->
+        <Style x:Key="LangListBoxStyle" TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         </Style>
 
         <!-- Language ListBoxItem Style (compact) -->
@@ -140,11 +156,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#F1F5F9"/>
+                                <Setter TargetName="bg" Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#EFF6FF"/>
-                                <Setter Property="Foreground" Value="#2563EB"/>
+                                <Setter TargetName="bg" Property="Background" Value="{StaticResource AccentLightBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -169,11 +185,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#F1F5F9"/>
+                                <Setter TargetName="bg" Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#EFF6FF"/>
-                                <Setter Property="Foreground" Value="#2563EB"/>
+                                <Setter TargetName="bg" Property="Background" Value="{StaticResource AccentLightBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -184,10 +200,10 @@
         <!-- Default Button Style -->
         <Style TargetType="Button">
             <Setter Property="Padding" Value="16,8"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLightBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Template">
@@ -205,7 +221,7 @@
                                 <Setter TargetName="bd" Property="BorderBrush" Value="#CBD5E1"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#F1F5F9"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -216,10 +232,10 @@
         <!-- Accent Button Style -->
         <Style x:Key="AccentButtonStyle" TargetType="Button">
             <Setter Property="Padding" Value="16,8"/>
-            <Setter Property="Background" Value="#2563EB"/>
-            <Setter Property="BorderBrush" Value="#2563EB"/>
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{StaticResource TextOnAccentBrush}"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Template">
@@ -233,11 +249,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#1D4ED8"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#1D4ED8"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource AccentHoverBrush}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource AccentHoverBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#1E40AF"/>
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource AccentPressedBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -247,8 +263,8 @@
 
         <!-- Card Style (reusable border) -->
         <Style x:Key="CardBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#E8ECF0"/>
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderCardBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="20"/>
@@ -258,7 +274,7 @@
         <Style x:Key="PageTitleStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="Margin" Value="0,0,0,20"/>
         </Style>
 
@@ -266,16 +282,16 @@
         <Style x:Key="CardTitleStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         </Style>
 
         <!-- ComboBox Style -->
         <Style TargetType="ComboBox">
             <Setter Property="Height" Value="34"/>
             <Setter Property="Padding" Value="10,0"/>
-            <Setter Property="Foreground" Value="#1E293B"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLightBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -297,7 +313,7 @@
                                                 CornerRadius="8"/>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="BorderBrush" Value="#2563EB"/>
+                                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -312,14 +328,14 @@
                                 <ContentPresenter Content="{TemplateBinding SelectionBoxItem}"
                                                   VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="Segoe MDL2 Assets"
-                                           FontSize="8" Foreground="#94A3B8" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                           FontSize="8" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="6,0,0,0"/>
                             </Grid>
 
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=ToggleButton}"
                                    IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    Focusable="False" PopupAnimation="Fade" StaysOpen="False">
-                                <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1"
+                                <Border Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1"
                                         CornerRadius="8" Width="{Binding ActualWidth, ElementName=ToggleButton}"
                                         MaxHeight="240" Margin="0,2,0,0">
                                     <Border.Effect>
@@ -337,7 +353,7 @@
         </Style>
 
         <Style TargetType="ComboBoxItem">
-            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="Padding" Value="10,6"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -347,11 +363,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="itemBorder" Property="Background" Value="#F1F5F9"/>
+                                <Setter TargetName="itemBorder" Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBorder" Property="Background" Value="#EFF6FF"/>
-                                <Setter Property="Foreground" Value="#2563EB"/>
+                                <Setter TargetName="itemBorder" Property="Background" Value="{StaticResource AccentLightBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -365,13 +381,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Slider">
                         <Grid Height="20">
-                            <Border Height="4" Background="#E2E8F0" CornerRadius="2" VerticalAlignment="Center"/>
+                            <Border Height="4" Background="{StaticResource BorderLightBrush}" CornerRadius="2" VerticalAlignment="Center"/>
                             <Track x:Name="PART_Track" VerticalAlignment="Center">
                                 <Track.DecreaseRepeatButton>
                                     <RepeatButton>
                                         <RepeatButton.Template>
                                             <ControlTemplate TargetType="RepeatButton">
-                                                <Border Height="4" Background="#2563EB" CornerRadius="2"/>
+                                                <Border Height="4" Background="{StaticResource AccentBrush}" CornerRadius="2"/>
                                             </ControlTemplate>
                                         </RepeatButton.Template>
                                     </RepeatButton>
@@ -381,7 +397,7 @@
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
                                                 <Border Width="18" Height="18" CornerRadius="9"
-                                                        Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                        Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1">
                                                     <Border.Effect>
                                                         <DropShadowEffect Color="#20000000" BlurRadius="3" ShadowDepth="0"/>
                                                     </Border.Effect>
@@ -399,7 +415,7 @@
 
         <!-- Separator Style -->
         <Style TargetType="Separator">
-            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Background" Value="{StaticResource SubtlePanelBrush}"/>
             <Setter Property="Height" Value="1"/>
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Template">
@@ -413,7 +429,7 @@
 
         <!-- RadioButton Style -->
         <Style TargetType="RadioButton">
-            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Margin" Value="0,0,20,0"/>
@@ -426,18 +442,18 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border x:Name="outerRing" Width="18" Height="18" CornerRadius="9"
-                                    BorderBrush="#CBD5E1" BorderThickness="2" Background="Transparent"/>
+                                    BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="2" Background="Transparent"/>
                             <Border x:Name="innerDot" Width="8" Height="8" CornerRadius="4"
                                     Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="outerRing" Property="BorderBrush" Value="#2563EB"/>
-                                <Setter TargetName="innerDot" Property="Background" Value="#2563EB"/>
+                                <Setter TargetName="outerRing" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                                <Setter TargetName="innerDot" Property="Background" Value="{StaticResource AccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="outerRing" Property="BorderBrush" Value="#2563EB"/>
+                                <Setter TargetName="outerRing" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -447,8 +463,8 @@
 
         <!-- Toast Notification Style -->
         <Style x:Key="ToastBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLightBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Padding" Value="14,10"/>
@@ -484,7 +500,7 @@
 
     <!-- Main Window Container -->
     <Border x:Name="RootBackground" CornerRadius="12" Background="{StaticResource AppBackgroundBrush}"
-            BorderBrush="#E0E4E8" BorderThickness="1">
+            BorderBrush="{StaticResource WindowFrameBorderBrush}" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
@@ -493,7 +509,7 @@
 
             <!-- ===== Title Bar ===== -->
             <Border Grid.Row="0" Background="{StaticResource TitleBarBackgroundBrush}"
-                    CornerRadius="12,12,0,0" BorderBrush="#F1F5F9" BorderThickness="0,0,0,1">
+                    CornerRadius="12,12,0,0" BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -509,8 +525,8 @@
 
                         <!-- App Icon -->
                         <Border Width="32" Height="32" Margin="12,8,10,8" CornerRadius="8"
-                                Background="#2563EB">
-                            <TextBlock Text="C" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="15"
+                                Background="{StaticResource AccentBrush}">
+                            <TextBlock Text="C" Foreground="{StaticResource TextOnAccentBrush}" FontWeight="SemiBold" FontSize="15"
                                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
 
@@ -544,7 +560,7 @@
 
                 <!-- ===== Left Sidebar ===== -->
                 <Border Background="{StaticResource SidebarBackgroundBrush}"
-                        BorderBrush="#F1F5F9" BorderThickness="0,0,1,0">
+                        BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,1,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -568,7 +584,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                                VerticalAlignment="Center" Margin="0,0,10,0" Opacity="0.7"/>
-                                    <TextBlock Text="{DynamicResource Lang_Nav_PPT}" FontSize="13"
+                                    <TextBlock Text="{DynamicResource Lang_Nav_DocOpt}" FontSize="13"
                                                VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ListBoxItem>
@@ -577,6 +593,22 @@
                                     <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                                VerticalAlignment="Center" Margin="0,0,10,0" Opacity="0.7"/>
                                     <TextBlock Text="{DynamicResource Lang_Nav_General}" FontSize="13"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Style="{StaticResource NavItemStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                               VerticalAlignment="Center" Margin="0,0,10,0" Opacity="0.7"/>
+                                    <TextBlock Text="{DynamicResource Lang_Nav_AssocCenter}" FontSize="13"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Style="{StaticResource NavItemStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                               VerticalAlignment="Center" Margin="0,0,10,0" Opacity="0.7"/>
+                                    <TextBlock Text="{DynamicResource Lang_Nav_ThemeUrl}" FontSize="13"
                                                VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ListBoxItem>
@@ -606,11 +638,12 @@
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Text="Language" FontSize="11" Foreground="#94A3B8"
+                                                <TextBlock Text="{DynamicResource Lang_Label_Language}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
                                                            VerticalAlignment="Center"/>
                                                 <TextBlock x:Name="chevron" Grid.Column="2"
                                                            FontFamily="Segoe MDL2 Assets"
-                                                           FontSize="8" Foreground="#94A3B8"
+                                                           Text="&#xE70E;"
+                                                           FontSize="8" Foreground="{StaticResource TextSecondaryBrush}"
                                                            VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
@@ -638,8 +671,8 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <ListBox x:Name="comboLang" Style="{StaticResource NavListBoxStyle}"
-                                         Margin="-12,0,-12,0" SelectedIndex="0"
+                                <ListBox x:Name="comboLang" Style="{StaticResource LangListBoxStyle}"
+                                         Margin="0,0,0,0" SelectedIndex="0"
                                          SelectionChanged="comboLang_SelectionChanged">
                                     <ListBoxItem Style="{StaticResource LangItemStyle}" Tag="zh-CN">
                                         <TextBlock Text="简体中文"/>
@@ -663,7 +696,7 @@
                             </Border>
 
                             <Button Margin="0,12,0,0" Click="btnSwitchToClassic_Click"
-                                    Background="#F8FAFC" BorderBrush="#E2E8F0" Foreground="#64748B" FontSize="12">
+                                    Background="{StaticResource SubtlePanelBrush}" BorderBrush="{StaticResource BorderLightBrush}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="&#xE8B3;" FontFamily="Segoe MDL2 Assets" FontSize="12"
                                                VerticalAlignment="Center" Margin="0,0,6,0"/>
@@ -680,29 +713,100 @@
                     <Grid Margin="32,28,32,28">
                         <!-- ===== Page: PPT Optimization ===== -->
                         <StackPanel x:Name="PagePPTOpt" Visibility="Visible">
-                            <TextBlock Text="{DynamicResource Lang_Nav_PPT}" Style="{StaticResource PageTitleStyle}"/>
+                            <TextBlock Text="{DynamicResource Lang_Nav_DocOpt}" Style="{StaticResource PageTitleStyle}"/>
 
                             <Border Style="{StaticResource CardBorderStyle}">
                                 <StackPanel>
                                     <TextBlock Text="{DynamicResource Lang_Card_AssocTitle}" Style="{StaticResource CardTitleStyle}"/>
                                     <TextBlock Text="{DynamicResource Lang_Card_AssocDesc}" Margin="0,4,0,16"
-                                               Foreground="#64748B" FontSize="12" TextWrapping="Wrap"/>
+                                               Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" TextWrapping="Wrap"/>
 
                                     <WrapPanel>
-                                        <Button Width="220" Margin="0,0,12,12" Click="btnSetPPT_Click">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                                           VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                                <TextBlock Text="{DynamicResource Lang_Btn_SetPPT}" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Width="220" Margin="0,0,12,12" Click="btnSetWPS_Click">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                                           VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                                <TextBlock Text="{DynamicResource Lang_Btn_SetWPS}" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
+                                        <StackPanel Width="220" Margin="0,0,12,12">
+                                            <Button Click="btnSetPptQuickMenu_Click">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{DynamicResource Lang_Label_PptSwitch}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Border x:Name="PptQuickMenu" Background="{StaticResource SubtlePanelBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,6,0,0" Visibility="Collapsed">
+                                                <StackPanel>
+                                                    <Button Margin="0,0,0,6" Click="btnSetPptOfficeQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToPpt}"/>
+                                                    </Button>
+                                                    <Button Click="btnSetPptWpsQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToWpsPpt}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <StackPanel Width="220" Margin="0,0,12,12">
+                                            <Button Click="btnSetWordQuick_Click">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{DynamicResource Lang_Label_WordSwitch}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Border x:Name="WordQuickMenu" Background="{StaticResource SubtlePanelBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,6,0,0" Visibility="Collapsed">
+                                                <StackPanel>
+                                                    <Button Margin="0,0,0,6" Click="btnSetWordOfficeQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToOffice}"/>
+                                                    </Button>
+                                                    <Button Click="btnSetWordWpsQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToWps}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <StackPanel Width="220" Margin="0,0,12,12">
+                                            <Button Click="btnSetExcelQuick_Click">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{DynamicResource Lang_Label_ExcelSwitch}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Border x:Name="ExcelQuickMenu" Background="{StaticResource SubtlePanelBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,6,0,0" Visibility="Collapsed">
+                                                <StackPanel>
+                                                    <Button Margin="0,0,0,6" Click="btnSetExcelOfficeQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToOffice}"/>
+                                                    </Button>
+                                                    <Button Click="btnSetExcelWpsQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToWps}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <StackPanel Width="220" Margin="0,0,12,12">
+                                            <Button Click="btnSetPdfQuick_Click">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{DynamicResource Lang_Label_PdfSwitch}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Border x:Name="PdfQuickMenu" Background="{StaticResource SubtlePanelBrush}" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,6,0,0" Visibility="Collapsed">
+                                                <StackPanel>
+                                                    <Button Margin="0,0,0,6" Click="btnSetPdfEdgeQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToEdge}"/>
+                                                    </Button>
+                                                    <Button Click="btnSetPdfWpsQuick_Click">
+                                                        <TextBlock Text="{DynamicResource Lang_Btn_SwitchToWps}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </WrapPanel>
+
+                                    <Separator Margin="0,6,0,14"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_SystemRepair}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,12"/>
+
+                                    <WrapPanel>
                                         <Button Width="220" Margin="0,0,12,12" Click="btnRestartExplorer_Click">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="14"
@@ -711,7 +815,7 @@
                                             </StackPanel>
                                         </Button>
                                         <Button Width="220" Margin="0,0,12,12" Click="btnCleanIconCache_Click"
-                                                Background="#FEF2F2" BorderBrush="#FECACA" Foreground="#DC2626">
+                                                Background="{StaticResource DangerSurfaceBrush}" BorderBrush="{StaticResource DangerBorderBrush}" Foreground="{StaticResource DangerTextBrush}">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                            VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -720,8 +824,8 @@
                                         </Button>
                                     </WrapPanel>
 
-                                    <TextBlock Text="{DynamicResource Lang_Tip_IconFix}" Foreground="#94A3B8" FontSize="11"
-                                               Margin="0,10,0,0"/>
+                                    <TextBlock Text="{DynamicResource Lang_Tip_IconFix}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"
+                                               Margin="0,4,0,0"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -735,7 +839,7 @@
                                 <StackPanel>
                                     <TextBlock Text="{DynamicResource Lang_Card_StartupModeTitle}" Style="{StaticResource CardTitleStyle}"/>
                                     <TextBlock Text="{DynamicResource Lang_Card_StartupFloatingDesc}" Margin="0,4,0,12"
-                                               Foreground="#64748B" FontSize="12"/>
+                                               Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
 
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
                                         <RadioButton x:Name="rbStartupMainWindow"
@@ -756,8 +860,8 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel>
                                             <TextBlock Text="{DynamicResource Lang_Card_StartupTitle}" FontWeight="SemiBold"
-                                                       Foreground="#1E293B" FontSize="13"/>
-                                            <TextBlock Text="{DynamicResource Lang_Card_StartupDesc}" Foreground="#64748B"
+                                                       Foreground="{StaticResource TextPrimaryBrush}" FontSize="13"/>
+                                            <TextBlock Text="{DynamicResource Lang_Card_StartupDesc}" Foreground="{StaticResource TextSecondaryBrush}"
                                                        FontSize="12" Margin="0,2,0,0"/>
                                         </StackPanel>
                                         <ToggleButton Grid.Column="1" x:Name="chkRunAtStartup"
@@ -776,8 +880,8 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel>
                                             <TextBlock Text="{DynamicResource Lang_Card_MonitorTitle}" FontWeight="SemiBold"
-                                                       Foreground="#1E293B" FontSize="13"/>
-                                            <TextBlock Text="{DynamicResource Lang_Card_MonitorDesc}" Foreground="#64748B"
+                                                       Foreground="{StaticResource TextPrimaryBrush}" FontSize="13"/>
+                                            <TextBlock Text="{DynamicResource Lang_Card_MonitorDesc}" Foreground="{StaticResource TextSecondaryBrush}"
                                                        FontSize="12" Margin="0,2,0,0"/>
                                         </StackPanel>
                                         <ToggleButton Grid.Column="1" x:Name="chkMonitorPPT"
@@ -823,6 +927,128 @@
                             </Border>
                         </StackPanel>
 
+                        <!-- ===== Page: Association Center ===== -->
+                        <StackPanel x:Name="PageAssociationCenter" Visibility="Collapsed">
+                            <TextBlock Text="{DynamicResource Lang_Nav_AssocCenter}" Style="{StaticResource PageTitleStyle}"/>
+
+                            <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Lang_Label_WordAssoc}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_TargetApp}" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,10"/>
+                                    <WrapPanel Margin="0,0,0,10">
+                                        <Button x:Name="btnWordOfficeTarget" Tag="Office" Width="200" Margin="0,0,10,8" Click="WordTarget_Click">
+                                            <TextBlock Text="Microsoft Office"/>
+                                        </Button>
+                                        <Button x:Name="btnWordWpsTarget" Tag="WPS" Width="200" Margin="0,0,10,8" Click="WordTarget_Click">
+                                            <TextBlock Text="WPS Office"/>
+                                        </Button>
+                                    </WrapPanel>
+                                    <ComboBox x:Name="cmbWordTarget" Visibility="Collapsed">
+                                        <ComboBoxItem Content="Microsoft Office" Tag="Office"/>
+                                        <ComboBoxItem Content="WPS Office" Tag="WPS"/>
+                                    </ComboBox>
+                                    <WrapPanel>
+                                        <CheckBox x:Name="chkWordDoc" Content=".doc" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkWordDocx" Content=".docx" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkWordDocm" Content=".docm" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkWordDot" Content=".dot" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkWordDotx" Content=".dotx" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkWordDotm" Content=".dotm" Margin="0,0,16,8"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Lang_Label_ExcelAssoc}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_TargetApp}" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,10"/>
+                                    <WrapPanel Margin="0,0,0,10">
+                                        <Button x:Name="btnExcelOfficeTarget" Tag="Office" Width="200" Margin="0,0,10,8" Click="ExcelTarget_Click">
+                                            <TextBlock Text="Microsoft Office"/>
+                                        </Button>
+                                        <Button x:Name="btnExcelWpsTarget" Tag="WPS" Width="200" Margin="0,0,10,8" Click="ExcelTarget_Click">
+                                            <TextBlock Text="WPS Office"/>
+                                        </Button>
+                                    </WrapPanel>
+                                    <ComboBox x:Name="cmbExcelTarget" Visibility="Collapsed">
+                                        <ComboBoxItem Content="Microsoft Office" Tag="Office"/>
+                                        <ComboBoxItem Content="WPS Office" Tag="WPS"/>
+                                    </ComboBox>
+                                    <WrapPanel>
+                                        <CheckBox x:Name="chkExcelXls" Content=".xls" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkExcelXlsx" Content=".xlsx" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkExcelXlsm" Content=".xlsm" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkExcelXlt" Content=".xlt" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkExcelXltx" Content=".xltx" Margin="0,0,16,8"/>
+                                        <CheckBox x:Name="chkExcelXltm" Content=".xltm" Margin="0,0,16,8"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Lang_Label_PdfAssoc}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_TargetApp}" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,10"/>
+                                    <WrapPanel Margin="0,0,0,10">
+                                        <Button x:Name="btnPdfEdgeTarget" Tag="Edge" Width="200" Margin="0,0,10,8" Click="PdfTarget_Click">
+                                            <TextBlock Text="Microsoft Edge"/>
+                                        </Button>
+                                        <Button x:Name="btnPdfWpsTarget" Tag="WPS" Width="200" Margin="0,0,10,8" Click="PdfTarget_Click">
+                                            <TextBlock Text="WPS Office"/>
+                                        </Button>
+                                    </WrapPanel>
+                                    <ComboBox x:Name="cmbPdfTarget" Visibility="Collapsed">
+                                        <ComboBoxItem Content="Microsoft Edge" Tag="Edge"/>
+                                        <ComboBoxItem Content="WPS Office" Tag="WPS"/>
+                                    </ComboBox>
+                                    <WrapPanel Margin="0,0,0,10">
+                                        <CheckBox x:Name="chkPdfPdf" Content=".pdf" Margin="0,0,16,8"/>
+                                    </WrapPanel>
+                                    <Button Width="220" HorizontalAlignment="Left" Click="btnApplyAssociations_Click" Style="{StaticResource AccentButtonStyle}">
+                                        <TextBlock Text="{DynamicResource Lang_Btn_ApplySelectedAssoc}"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- ===== Page: Theme & URL ===== -->
+                        <StackPanel x:Name="PageThemeUrl" Visibility="Collapsed">
+                            <TextBlock Text="{DynamicResource Lang_Nav_ThemeUrl}" Style="{StaticResource PageTitleStyle}"/>
+
+                            <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Lang_Label_Theme}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_MonetTheme}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                    <ListBox x:Name="lstThemePreset" Style="{StaticResource LangListBoxStyle}"
+                                             SelectionChanged="ThemePreset_SelectionChanged" SelectedIndex="0" Width="300">
+                                        <ListBoxItem Style="{StaticResource LangItemStyle}" Tag="MonetWaterLilies">
+                                            <TextBlock Text="{DynamicResource Lang_ThemePreset_WaterLilies}"/>
+                                        </ListBoxItem>
+                                        <ListBoxItem Style="{StaticResource LangItemStyle}" Tag="MonetSunrise">
+                                            <TextBlock Text="{DynamicResource Lang_ThemePreset_Sunrise}"/>
+                                        </ListBoxItem>
+                                        <ListBoxItem Style="{StaticResource LangItemStyle}" Tag="MonetGarden">
+                                            <TextBlock Text="{DynamicResource Lang_ThemePreset_Garden}"/>
+                                        </ListBoxItem>
+                                        <ListBoxItem Style="{StaticResource LangItemStyle}" Tag="MonetTwilight">
+                                            <TextBlock Text="{DynamicResource Lang_ThemePreset_Twilight}"/>
+                                        </ListBoxItem>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Lang_Label_UrlInvoke}" Style="{StaticResource CardTitleStyle}" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{DynamicResource Lang_Label_UrlInvokeTip}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                                    <TextBox x:Name="txtInvokeUrl" Height="34" Margin="0,0,0,10"/>
+                                    <Button Width="180" HorizontalAlignment="Left" Click="btnInvokeUrl_Click" Style="{StaticResource AccentButtonStyle}">
+                                        <TextBlock Text="{DynamicResource Lang_Btn_InvokeUrl}"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
                         <!-- ===== Page: About ===== -->
                         <StackPanel x:Name="PageAbout" Visibility="Collapsed">
                             <TextBlock Text="{DynamicResource Lang_Nav_About}" Style="{StaticResource PageTitleStyle}"/>
@@ -830,11 +1056,11 @@
                             <Border Style="{StaticResource CardBorderStyle}">
                                 <StackPanel>
                                     <TextBlock x:Name="txtVersionDisplay" Text="CWS" FontSize="24" FontWeight="SemiBold"
-                                               Foreground="#2563EB"/>
+                                               Foreground="{StaticResource AccentBrush}"/>
                                     <TextBlock Text="{DynamicResource Lang_About_Author}" Margin="0,12,0,0"
-                                               Foreground="#64748B" FontSize="13"/>
+                                               Foreground="{StaticResource TextSecondaryBrush}" FontSize="13"/>
                                     <TextBlock Text="{DynamicResource Lang_About_Desc}" TextWrapping="Wrap"
-                                               Margin="0,4,0,0" Foreground="#64748B" FontSize="13"/>
+                                               Margin="0,4,0,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13"/>
 
                                     <Separator Margin="0,16,0,16"/>
 
@@ -843,12 +1069,12 @@
                                         <TextBlock Text="{DynamicResource Lang_About_CheckUpdate}"/>
                                     </Button>
                                     <TextBlock x:Name="txtUpdateStatus" Margin="0,10,0,0" Visibility="Collapsed"
-                                               Cursor="Hand" TextDecorations="Underline" Foreground="#2563EB" FontSize="12"
+                                               Cursor="Hand" TextDecorations="Underline" Foreground="{StaticResource AccentBrush}" FontSize="12"
                                                MouseLeftButtonDown="txtUpdateStatus_MouseLeftButtonDown"/>
 
                                     <Separator Margin="0,16,0,16"/>
 
-                                    <TextBlock Text="{DynamicResource Lang_About_License}" Foreground="#94A3B8" FontSize="12"/>
+                                    <TextBlock Text="{DynamicResource Lang_About_License}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
 
                                     <Button x:Name="btnExportLogs" Width="200" HorizontalAlignment="Left"
                                             Margin="0,16,0,0" Click="btnExportLogs_Click">

@@ -33,6 +33,8 @@ namespace CWS
 
             // 應用背景
             ApplySavedBackground();
+
+            txtVersionDisplay.Text = $"CWS {UpdateChecker.CurrentVersion}";
         }
 
         // --- 語言管理 (優先本地外部文件) ---
@@ -97,6 +99,7 @@ namespace CWS
             {
                 sb.Begin();
             }
+
 
             // 處理啟動時直接進入懸浮球模式
             if (Application.Current.Properties["StartMinimized"] is true)
@@ -429,16 +432,16 @@ namespace CWS
         {
             var dlg = new SaveFileDialog
             {
-                Title = "Export Configuration",
-                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*",
+                Title = Application.Current.TryFindResource("Lang_Dialog_ExportConfigTitle")?.ToString() ?? "Export Configuration",
+                Filter = Application.Current.TryFindResource("Lang_Dialog_ConfigFileFilter")?.ToString() ?? "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*",
                 DefaultExt = ".cwsconfig",
-                FileName = "CWS_Config.cwsconfig"
+                FileName = Application.Current.TryFindResource("Lang_Dialog_ConfigDefaultFileName")?.ToString() ?? "CWS_Config.cwsconfig"
             };
             if (dlg.ShowDialog() == true)
             {
                 ConfigManager.ExportConfig(dlg.FileName);
                 Logger.Info("Configuration exported");
-                SetStatus("Config exported");
+                SetStatus(Application.Current.TryFindResource("Lang_Status_ConfigExported")?.ToString() ?? "Config exported");
             }
         }
 
@@ -446,8 +449,8 @@ namespace CWS
         {
             var dlg = new OpenFileDialog
             {
-                Title = "Import Configuration",
-                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*"
+                Title = Application.Current.TryFindResource("Lang_Dialog_ImportConfigTitle")?.ToString() ?? "Import Configuration",
+                Filter = Application.Current.TryFindResource("Lang_Dialog_ConfigFileFilter")?.ToString() ?? "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*"
             };
             if (dlg.ShowDialog() == true)
             {
@@ -458,7 +461,7 @@ namespace CWS
                 }
                 else
                 {
-                    SetStatus("Import failed - invalid config file");
+                    SetStatus(Application.Current.TryFindResource("Lang_Status_ConfigImportFailed")?.ToString() ?? "Import failed - invalid config file");
                 }
             }
         }
@@ -488,7 +491,7 @@ namespace CWS
             else
             {
                 string upToDate = Application.Current.TryFindResource("Lang_About_UpToDate")?.ToString() ?? "Up to date";
-                txtUpdateStatus.Text = $"{upToDate} (v{UpdateChecker.CurrentVersion})";
+                txtUpdateStatus.Text = $"{upToDate} ({UpdateChecker.CurrentVersion})";
                 txtUpdateStatus.Visibility = Visibility.Visible;
                 _latestReleaseUrl = null;
             }

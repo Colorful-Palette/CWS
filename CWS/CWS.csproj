@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
@@ -8,7 +8,12 @@
 		<UseWPF>true</UseWPF>
 		<TargetPlatformControls>true</TargetPlatformControls>
 		<AssemblyName>CWS</AssemblyName>
-  	    <ApplicationIcon>icon.ico</ApplicationIcon>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<ManualMinor>4</ManualMinor>
+		<Version>0.$(ManualMinor).$([System.DateTime]::UtcNow.ToString("yyMMdd")).$([System.DateTime]::UtcNow.ToString("HHmm"))</Version>
+		<AssemblyVersion>0.0.0.0</AssemblyVersion>
+		<FileVersion>0.0.0.0</FileVersion>
+		<InformationalVersion>v0.$(ManualMinor)-$([System.DateTime]::UtcNow.ToString("HHmm"))($([System.DateTime]::UtcNow.ToString("yyMMdd")))</InformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

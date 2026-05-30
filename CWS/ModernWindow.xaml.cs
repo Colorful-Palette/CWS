@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Markup;
 using CWS.Services;
+using Brush = System.Windows.Media.Brush;
 
 namespace CWS
 {
@@ -29,7 +31,7 @@ namespace CWS
             _floatingBall = new FloatingBall();
             _floatingBall.MouseDoubleClick += (s, e) => RestoreFromFloatingBall();
 
-            txtVersionDisplay.Text = $"CWS v{UpdateChecker.CurrentVersion}";
+            txtVersionDisplay.Text = $"CWS {UpdateChecker.CurrentVersion}";
         }
 
         // --- 语言管理 ---
@@ -125,7 +127,7 @@ namespace CWS
                 var textBlock = new TextBlock
                 {
                     Text = message,
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E293B")),
+                    Foreground = GetBrush("TextPrimaryBrush", "#1E293B"),
                     FontSize = 13,
                     VerticalAlignment = VerticalAlignment.Center,
                     TextWrapping = TextWrapping.Wrap
@@ -176,17 +178,21 @@ namespace CWS
 
         private void ShowPage(int index)
         {
-            if (PageGeneral == null || PagePPTOpt == null || PageAbout == null) return;
+            if (PageGeneral == null || PagePPTOpt == null || PageAssociationCenter == null || PageThemeUrl == null || PageAbout == null) return;
 
             PageGeneral.Visibility = Visibility.Collapsed;
             PagePPTOpt.Visibility = Visibility.Collapsed;
+            PageAssociationCenter.Visibility = Visibility.Collapsed;
+            PageThemeUrl.Visibility = Visibility.Collapsed;
             PageAbout.Visibility = Visibility.Collapsed;
 
             switch (index)
             {
                 case 0: PagePPTOpt.Visibility = Visibility.Visible; break;
                 case 1: PageGeneral.Visibility = Visibility.Visible; break;
-                case 2: PageAbout.Visibility = Visibility.Visible; break;
+                case 2: PageAssociationCenter.Visibility = Visibility.Visible; break;
+                case 3: PageThemeUrl.Visibility = Visibility.Visible; break;
+                case 4: PageAbout.Visibility = Visibility.Visible; break;
             }
         }
 
@@ -247,6 +253,10 @@ namespace CWS
         }
 
         // --- 文件关联 ---
+        private static readonly string[] WordSuffixDefaults = { ".doc", ".docx", ".docm", ".dot", ".dotx", ".dotm" };
+        private static readonly string[] ExcelSuffixDefaults = { ".xls", ".xlsx", ".xlsm", ".xlt", ".xltx", ".xltm" };
+        private static readonly string[] PdfSuffixDefaults = { ".pdf" };
+
         private void btnSetPPT_Click(object sender, RoutedEventArgs e)
         {
             ShowToast("Associating with PowerPoint...", "info");
@@ -261,6 +271,508 @@ namespace CWS
             FileAssociationScanner.AutoFixAssociation(true);
             ShowToast("Associated with WPS Office", "success");
             Logger.Info("File association switched to WPS (all PPT formats)");
+        }
+
+        private void btnSetPptQuickMenu_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickMenu(PptQuickMenu);
+        }
+
+        private void btnSetPptOfficeQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ShowToast("Associating with PowerPoint...", "info");
+            FileAssociationScanner.AutoFixAssociation(false);
+            ShowToast("Associated with PowerPoint", "success");
+            PptQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetPptWpsQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ShowToast("Associating with WPS...", "info");
+            FileAssociationScanner.AutoFixAssociation(true);
+            ShowToast("Associated with WPS Office", "success");
+            PptQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetWordQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickMenu(WordQuickMenu);
+        }
+
+        private void btnSetExcelQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickMenu(ExcelQuickMenu);
+        }
+
+        private void btnSetPdfQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickMenu(PdfQuickMenu);
+        }
+
+        private void btnSetWordOfficeQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Word, FileAssociationScanner.AssociationTarget.Office, WordSuffixDefaults, "Word");
+            WordQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetWordWpsQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Word, FileAssociationScanner.AssociationTarget.Wps, WordSuffixDefaults, "Word");
+            WordQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetExcelOfficeQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Excel, FileAssociationScanner.AssociationTarget.Office, ExcelSuffixDefaults, "Excel");
+            ExcelQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetExcelWpsQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Excel, FileAssociationScanner.AssociationTarget.Wps, ExcelSuffixDefaults, "Excel");
+            ExcelQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetPdfEdgeQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Pdf, FileAssociationScanner.AssociationTarget.Edge, PdfSuffixDefaults, "PDF");
+            PdfQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnSetPdfWpsQuick_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyQuickAssociation(FileAssociationScanner.AssociationCategory.Pdf, FileAssociationScanner.AssociationTarget.Wps, PdfSuffixDefaults, "PDF");
+            PdfQuickMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ToggleQuickMenu(Border target)
+        {
+            bool openTarget = target.Visibility != Visibility.Visible;
+
+            PptQuickMenu.Visibility = Visibility.Collapsed;
+            WordQuickMenu.Visibility = Visibility.Collapsed;
+            ExcelQuickMenu.Visibility = Visibility.Collapsed;
+            PdfQuickMenu.Visibility = Visibility.Collapsed;
+
+            target.Visibility = openTarget ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ApplyQuickAssociation(
+            FileAssociationScanner.AssociationCategory category,
+            FileAssociationScanner.AssociationTarget target,
+            IEnumerable<string> suffixes,
+            string label)
+        {
+            if (!FileAssociationScanner.IsAdmin())
+            {
+                ShowToast("请以管理员身份运行后再应用关联", "error");
+                return;
+            }
+
+            var result = FileAssociationScanner.ApplyAssociations(category, target, suffixes);
+            ShowToast(result.failed == 0 ? $"{label} 关联已切换" : $"{label} 切换部分失败：{result.failed}", result.failed == 0 ? "success" : "warning");
+        }
+
+        private void btnApplyAssociations_Click(object sender, RoutedEventArgs e)
+        {
+            if (!FileAssociationScanner.IsAdmin())
+            {
+                ShowToast("请以管理员身份运行后再应用关联", "error");
+                return;
+            }
+
+            SaveAssociationSettings();
+
+            var wordTarget = ParseTargetFromCombo(cmbWordTarget, FileAssociationScanner.AssociationTarget.Office);
+            var excelTarget = ParseTargetFromCombo(cmbExcelTarget, FileAssociationScanner.AssociationTarget.Office);
+            var pdfTarget = ParseTargetFromCombo(cmbPdfTarget, FileAssociationScanner.AssociationTarget.Edge);
+
+            int success = 0;
+            int failed = 0;
+
+            var wordResult = FileAssociationScanner.ApplyAssociations(
+                FileAssociationScanner.AssociationCategory.Word,
+                wordTarget,
+                GetSelectedWordSuffixes());
+            success += wordResult.success;
+            failed += wordResult.failed;
+
+            var excelResult = FileAssociationScanner.ApplyAssociations(
+                FileAssociationScanner.AssociationCategory.Excel,
+                excelTarget,
+                GetSelectedExcelSuffixes());
+            success += excelResult.success;
+            failed += excelResult.failed;
+
+            var pdfResult = FileAssociationScanner.ApplyAssociations(
+                FileAssociationScanner.AssociationCategory.Pdf,
+                pdfTarget,
+                GetSelectedPdfSuffixes());
+            success += pdfResult.success;
+            failed += pdfResult.failed;
+
+            if (failed == 0)
+            {
+                ShowToast($"关联应用完成（{success} 项）", "success");
+            }
+            else
+            {
+                ShowToast($"关联完成：成功 {success}，失败 {failed}", "warning");
+            }
+
+            Logger.Info($"Apply associations result: success={success}, failed={failed}");
+        }
+
+        private FileAssociationScanner.AssociationTarget ParseTargetFromCombo(ComboBox comboBox, FileAssociationScanner.AssociationTarget fallback)
+        {
+            if (comboBox?.SelectedItem is ComboBoxItem item && item.Tag is string tag)
+            {
+                return tag switch
+                {
+                    "Office" => FileAssociationScanner.AssociationTarget.Office,
+                    "WPS" => FileAssociationScanner.AssociationTarget.Wps,
+                    "Edge" => FileAssociationScanner.AssociationTarget.Edge,
+                    _ => fallback
+                };
+            }
+
+            return fallback;
+        }
+
+        private void WordTarget_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string tag)
+            {
+                SetSelectedComboByTag(cmbWordTarget, tag, "Office");
+                UpdateAssociationTargetButtonsUI();
+            }
+        }
+
+        private void ExcelTarget_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string tag)
+            {
+                SetSelectedComboByTag(cmbExcelTarget, tag, "Office");
+                UpdateAssociationTargetButtonsUI();
+            }
+        }
+
+        private void PdfTarget_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string tag)
+            {
+                SetSelectedComboByTag(cmbPdfTarget, tag, "Edge");
+                UpdateAssociationTargetButtonsUI();
+            }
+        }
+
+        private void UpdateAssociationTargetButtonsUI()
+        {
+            string wordTarget = (cmbWordTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Office";
+            string excelTarget = (cmbExcelTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Office";
+            string pdfTarget = (cmbPdfTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Edge";
+
+            ApplyTargetButtonState(btnWordOfficeTarget, wordTarget == "Office");
+            ApplyTargetButtonState(btnWordWpsTarget, wordTarget == "WPS");
+
+            ApplyTargetButtonState(btnExcelOfficeTarget, excelTarget == "Office");
+            ApplyTargetButtonState(btnExcelWpsTarget, excelTarget == "WPS");
+
+            ApplyTargetButtonState(btnPdfEdgeTarget, pdfTarget == "Edge");
+            ApplyTargetButtonState(btnPdfWpsTarget, pdfTarget == "WPS");
+        }
+
+        private void ApplyTargetButtonState(Button button, bool isSelected)
+        {
+            button.Background = isSelected
+                ? GetBrush("AccentLightBrush", "#EFF6FF")
+                : GetBrush("CardBackgroundBrush", "#FFFFFF");
+
+            button.BorderBrush = isSelected
+                ? GetBrush("AccentBrush", "#2563EB")
+                : GetBrush("BorderLightBrush", "#E2E8F0");
+
+            button.Foreground = isSelected
+                ? GetBrush("AccentBrush", "#2563EB")
+                : GetBrush("TextPrimaryBrush", "#1E293B");
+        }
+
+        private IEnumerable<string> GetSelectedWordSuffixes()
+        {
+            var map = new Dictionary<string, bool>
+            {
+                [".doc"] = chkWordDoc.IsChecked == true,
+                [".docx"] = chkWordDocx.IsChecked == true,
+                [".docm"] = chkWordDocm.IsChecked == true,
+                [".dot"] = chkWordDot.IsChecked == true,
+                [".dotx"] = chkWordDotx.IsChecked == true,
+                [".dotm"] = chkWordDotm.IsChecked == true
+            };
+
+            return map.Where(x => x.Value).Select(x => x.Key);
+        }
+
+        private IEnumerable<string> GetSelectedExcelSuffixes()
+        {
+            var map = new Dictionary<string, bool>
+            {
+                [".xls"] = chkExcelXls.IsChecked == true,
+                [".xlsx"] = chkExcelXlsx.IsChecked == true,
+                [".xlsm"] = chkExcelXlsm.IsChecked == true,
+                [".xlt"] = chkExcelXlt.IsChecked == true,
+                [".xltx"] = chkExcelXltx.IsChecked == true,
+                [".xltm"] = chkExcelXltm.IsChecked == true
+            };
+
+            return map.Where(x => x.Value).Select(x => x.Key);
+        }
+
+        private IEnumerable<string> GetSelectedPdfSuffixes()
+        {
+            if (chkPdfPdf.IsChecked == true) return PdfSuffixDefaults;
+            return Array.Empty<string>();
+        }
+
+        private static string JoinSuffixes(IEnumerable<string> values)
+        {
+            return string.Join(";", values.Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        private static HashSet<string> ParseSuffixes(string raw, IEnumerable<string> fallback)
+        {
+            var parsed = (raw ?? string.Empty)
+                .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim().ToLowerInvariant())
+                .Where(x => x.StartsWith("."))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            if (parsed.Count > 0) return parsed;
+            return fallback.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        }
+
+        private void SetSelectedComboByTag(ComboBox comboBox, string tag, string fallbackTag)
+        {
+            var targetTag = string.IsNullOrWhiteSpace(tag) ? fallbackTag : tag;
+            foreach (var item in comboBox.Items.OfType<ComboBoxItem>())
+            {
+                if ((item.Tag?.ToString() ?? string.Empty).Equals(targetTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    comboBox.SelectedItem = item;
+                    return;
+                }
+            }
+
+            foreach (var item in comboBox.Items.OfType<ComboBoxItem>())
+            {
+                if ((item.Tag?.ToString() ?? string.Empty).Equals(fallbackTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    comboBox.SelectedItem = item;
+                    return;
+                }
+            }
+        }
+
+        private void SetSelectedListBoxByTag(ListBox listBox, string tag, string fallbackTag)
+        {
+            var targetTag = string.IsNullOrWhiteSpace(tag) ? fallbackTag : tag;
+            foreach (var item in listBox.Items.OfType<ListBoxItem>())
+            {
+                if ((item.Tag?.ToString() ?? string.Empty).Equals(targetTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    listBox.SelectedItem = item;
+                    return;
+                }
+            }
+
+            foreach (var item in listBox.Items.OfType<ListBoxItem>())
+            {
+                if ((item.Tag?.ToString() ?? string.Empty).Equals(fallbackTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    listBox.SelectedItem = item;
+                    return;
+                }
+            }
+        }
+
+        private void LoadAssociationSettings()
+        {
+            SetSelectedComboByTag(cmbWordTarget, Properties.Settings.Default.AssocWordTarget, "Office");
+            SetSelectedComboByTag(cmbExcelTarget, Properties.Settings.Default.AssocExcelTarget, "Office");
+            SetSelectedComboByTag(cmbPdfTarget, Properties.Settings.Default.AssocPdfTarget, "Edge");
+
+            var wordSet = ParseSuffixes(Properties.Settings.Default.AssocWordSuffixes, WordSuffixDefaults);
+            chkWordDoc.IsChecked = wordSet.Contains(".doc");
+            chkWordDocx.IsChecked = wordSet.Contains(".docx");
+            chkWordDocm.IsChecked = wordSet.Contains(".docm");
+            chkWordDot.IsChecked = wordSet.Contains(".dot");
+            chkWordDotx.IsChecked = wordSet.Contains(".dotx");
+            chkWordDotm.IsChecked = wordSet.Contains(".dotm");
+
+            var excelSet = ParseSuffixes(Properties.Settings.Default.AssocExcelSuffixes, ExcelSuffixDefaults);
+            chkExcelXls.IsChecked = excelSet.Contains(".xls");
+            chkExcelXlsx.IsChecked = excelSet.Contains(".xlsx");
+            chkExcelXlsm.IsChecked = excelSet.Contains(".xlsm");
+            chkExcelXlt.IsChecked = excelSet.Contains(".xlt");
+            chkExcelXltx.IsChecked = excelSet.Contains(".xltx");
+            chkExcelXltm.IsChecked = excelSet.Contains(".xltm");
+
+            var pdfSet = ParseSuffixes(Properties.Settings.Default.AssocPdfSuffixes, PdfSuffixDefaults);
+            chkPdfPdf.IsChecked = pdfSet.Contains(".pdf");
+
+            UpdateAssociationTargetButtonsUI();
+        }
+
+        private void SaveAssociationSettings()
+        {
+            Properties.Settings.Default.AssocWordTarget = (cmbWordTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Office";
+            Properties.Settings.Default.AssocExcelTarget = (cmbExcelTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Office";
+            Properties.Settings.Default.AssocPdfTarget = (cmbPdfTarget.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Edge";
+
+            Properties.Settings.Default.AssocWordSuffixes = JoinSuffixes(GetSelectedWordSuffixes());
+            Properties.Settings.Default.AssocExcelSuffixes = JoinSuffixes(GetSelectedExcelSuffixes());
+            Properties.Settings.Default.AssocPdfSuffixes = JoinSuffixes(GetSelectedPdfSuffixes());
+            Properties.Settings.Default.Save();
+        }
+
+        private bool _isThemeInitializing = false;
+        private const string DefaultThemePreset = "MonetWaterLilies";
+
+        private void ThemePreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isThemeInitializing) return;
+            ApplyThemeAndPersist();
+        }
+
+        private void ApplyThemeAndPersist()
+        {
+            string preset = (lstThemePreset?.SelectedItem as ListBoxItem)?.Tag?.ToString() ?? DefaultThemePreset;
+            ApplyTheme(preset);
+            Properties.Settings.Default.ThemePreset = preset;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ApplyTheme(string preset)
+        {
+            var accent = GetPresetAccent(preset);
+            var surface = GetPresetSurface(preset);
+
+            SetBrush("AccentBrush", accent.Accent);
+            SetBrush("AccentHoverBrush", accent.Hover);
+            SetBrush("AccentPressedBrush", accent.Pressed);
+            SetBrush("AccentLightBrush", accent.Light);
+            SetBrush("TextOnAccentBrush", accent.TextOnAccent);
+
+            SetBrush("AppBackgroundBrush", surface.App);
+            SetBrush("SidebarBackgroundBrush", surface.Sidebar);
+            SetBrush("CardBackgroundBrush", surface.Card);
+            SetBrush("TitleBarBackgroundBrush", surface.Title);
+            SetBrush("TextPrimaryBrush", surface.TextPrimary);
+            SetBrush("TextSecondaryBrush", surface.TextSecondary);
+            SetBrush("BorderLightBrush", surface.BorderLight);
+            SetBrush("BorderCardBrush", surface.BorderCard);
+            SetBrush("DividerBrush", surface.Divider);
+            SetBrush("WindowFrameBorderBrush", surface.FrameBorder);
+            SetBrush("SubtlePanelBrush", surface.SubtlePanel);
+            SetBrush("DangerSurfaceBrush", surface.DangerSurface);
+            SetBrush("DangerBorderBrush", surface.DangerBorder);
+            SetBrush("DangerTextBrush", surface.DangerText);
+
+            RootBackground.BorderBrush = GetBrush("WindowFrameBorderBrush", "#E0E4E8");
+            UpdateAssociationTargetButtonsUI();
+        }
+
+        private (string Accent, string Hover, string Pressed, string Light, string TextOnAccent) GetPresetAccent(string preset)
+        {
+            return preset switch
+            {
+                "MonetSunrise" => ("#E38B4E", "#CC7740", "#A95E2F", "#FBEDE2", "#FFFFFF"),
+                "MonetGarden" => ("#6FA67A", "#5D9468", "#4D7E58", "#EAF4EC", "#FFFFFF"),
+                "MonetTwilight" => ("#7B78B8", "#6A67A6", "#56538C", "#EEEDFA", "#FFFFFF"),
+                _ => ("#5B8FA8", "#4A7C95", "#3D677D", "#E8F1F4", "#FFFFFF")
+            };
+        }
+
+        private (
+            string App,
+            string Sidebar,
+            string Card,
+            string Title,
+            string TextPrimary,
+            string TextSecondary,
+            string BorderLight,
+            string BorderCard,
+            string Divider,
+            string FrameBorder,
+            string SubtlePanel,
+            string DangerSurface,
+            string DangerBorder,
+            string DangerText) GetPresetSurface(string preset)
+        {
+            return preset switch
+            {
+                "MonetSunrise" => ("#F7F2ED", "#FFF9F4", "#FFFFFF", "#FFF9F4", "#2D241E", "#7C6959", "#EADACB", "#EFDCCF", "#EADACB", "#DFC9B6", "#FAF3EC", "#FFF1EE", "#F5C6BF", "#C2524A"),
+                "MonetGarden" => ("#EEF4EF", "#F7FCF8", "#FFFFFF", "#F7FCF8", "#1F2B22", "#5D7263", "#D2E2D6", "#D8E8DC", "#D2E2D6", "#C6D8CB", "#F1F8F3", "#FEF2F2", "#FECACA", "#DC2626"),
+                "MonetTwilight" => ("#F1F1F8", "#F8F8FD", "#FFFFFF", "#F8F8FD", "#262739", "#666883", "#D8D9EA", "#DEE0EF", "#D8D9EA", "#CBCDE0", "#F3F4FB", "#FEF2F2", "#FECACA", "#DC2626"),
+                _ => ("#EEF3F5", "#F7FAFB", "#FFFFFF", "#F7FAFB", "#1F2F38", "#5B7280", "#D8E4EA", "#DDE8EE", "#D8E4EA", "#CAD9E1", "#F1F6F8", "#FEF2F2", "#FECACA", "#DC2626")
+            };
+        }
+
+        private Brush GetBrush(string key, string fallbackHex)
+        {
+            if (TryFindResource(key) is Brush brush) return brush;
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(fallbackHex));
+        }
+
+        private void SetBrush(string key, string colorHex)
+        {
+            var color = (Color)ColorConverter.ConvertFromString(colorHex);
+
+            if (Resources[key] is SolidColorBrush existing)
+            {
+                if (existing.IsFrozen)
+                {
+                    var mutable = existing.Clone();
+                    mutable.Color = color;
+                    Resources[key] = mutable;
+                }
+                else
+                {
+                    existing.Color = color;
+                }
+            }
+            else
+            {
+                Resources[key] = new SolidColorBrush(color);
+            }
+        }
+
+        private void btnInvokeUrl_Click(object sender, RoutedEventArgs e)
+        {
+            string raw = (txtInvokeUrl.Text ?? string.Empty).Trim();
+            if (!Uri.TryCreate(raw, UriKind.Absolute, out var uri))
+            {
+                ShowToast("URL 无效", "error");
+                return;
+            }
+
+            string scheme = uri.Scheme.ToLowerInvariant();
+            if (scheme == "javascript" || scheme == "data")
+            {
+                ShowToast("不支持该协议", "error");
+                return;
+            }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(raw) { UseShellExecute = true });
+                Properties.Settings.Default.LastInvokeUrl = raw;
+                Properties.Settings.Default.Save();
+                ShowToast("URL 调用成功", "success");
+            }
+            catch (Exception ex)
+            {
+                ShowToast($"URL 调用失败: {ex.Message}", "error");
+            }
         }
 
         // --- 服务与进程管理 ---
@@ -391,16 +903,16 @@ namespace CWS
         {
             var dlg = new SaveFileDialog
             {
-                Title = "Export Configuration",
-                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*",
+                Title = Application.Current.TryFindResource("Lang_Dialog_ExportConfigTitle")?.ToString() ?? "Export Configuration",
+                Filter = Application.Current.TryFindResource("Lang_Dialog_ConfigFileFilter")?.ToString() ?? "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*",
                 DefaultExt = ".cwsconfig",
-                FileName = "CWS_Config.cwsconfig"
+                FileName = Application.Current.TryFindResource("Lang_Dialog_ConfigDefaultFileName")?.ToString() ?? "CWS_Config.cwsconfig"
             };
             if (dlg.ShowDialog() == true)
             {
                 ConfigManager.ExportConfig(dlg.FileName);
                 Logger.Info("Configuration exported");
-                ShowToast("Config exported", "success");
+                ShowToast(Application.Current.TryFindResource("Lang_Status_ConfigExported")?.ToString() ?? "Config exported", "success");
             }
         }
 
@@ -408,8 +920,8 @@ namespace CWS
         {
             var dlg = new OpenFileDialog
             {
-                Title = "Import Configuration",
-                Filter = "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*"
+                Title = Application.Current.TryFindResource("Lang_Dialog_ImportConfigTitle")?.ToString() ?? "Import Configuration",
+                Filter = Application.Current.TryFindResource("Lang_Dialog_ConfigFileFilter")?.ToString() ?? "CWS Config Files (*.cwsconfig)|*.cwsconfig|All Files (*.*)|*.*"
             };
             if (dlg.ShowDialog() == true)
             {
@@ -420,7 +932,7 @@ namespace CWS
                 }
                 else
                 {
-                    ShowToast("Import failed - invalid config file", "error");
+                    ShowToast(Application.Current.TryFindResource("Lang_Status_ConfigImportFailed")?.ToString() ?? "Import failed - invalid config file", "error");
                 }
             }
         }
@@ -450,7 +962,7 @@ namespace CWS
             else
             {
                 string upToDate = Application.Current.TryFindResource("Lang_About_UpToDate")?.ToString() ?? "Up to date";
-                txtUpdateStatus.Text = $"{upToDate} (v{UpdateChecker.CurrentVersion})";
+                txtUpdateStatus.Text = $"{upToDate} ({UpdateChecker.CurrentVersion})";
                 txtUpdateStatus.Visibility = Visibility.Visible;
                 _latestReleaseUrl = null;
             }
@@ -509,6 +1021,18 @@ namespace CWS
                 rbStartupFloatingBall.IsChecked = true;
             else
                 rbStartupMainWindow.IsChecked = true;
+
+            LoadAssociationSettings();
+
+            _isThemeInitializing = true;
+            string preset = string.IsNullOrWhiteSpace(Properties.Settings.Default.ThemePreset)
+                ? DefaultThemePreset
+                : Properties.Settings.Default.ThemePreset;
+            SetSelectedListBoxByTag(lstThemePreset, preset, DefaultThemePreset);
+            ApplyTheme(preset);
+            _isThemeInitializing = false;
+
+            txtInvokeUrl.Text = Properties.Settings.Default.LastInvokeUrl;
 
             if (Application.Current.Properties["StartMinimized"] is true)
             {

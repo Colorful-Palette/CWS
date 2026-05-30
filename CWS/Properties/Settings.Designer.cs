@@ -94,5 +94,101 @@ namespace CWS.Properties {
                 this["UseModernUI"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Office")]
+        public string AssocWordTarget {
+            get {
+                return ((string)(this["AssocWordTarget"]));
+            }
+            set {
+                this["AssocWordTarget"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Office")]
+        public string AssocExcelTarget {
+            get {
+                return ((string)(this["AssocExcelTarget"]));
+            }
+            set {
+                this["AssocExcelTarget"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Edge")]
+        public string AssocPdfTarget {
+            get {
+                return ((string)(this["AssocPdfTarget"]));
+            }
+            set {
+                this["AssocPdfTarget"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".doc;.docx;.docm;.dot;.dotx;.dotm")]
+        public string AssocWordSuffixes {
+            get {
+                return ((string)(this["AssocWordSuffixes"]));
+            }
+            set {
+                this["AssocWordSuffixes"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".xls;.xlsx;.xlsm;.xlt;.xltx;.xltm")]
+        public string AssocExcelSuffixes {
+            get {
+                return ((string)(this["AssocExcelSuffixes"]));
+            }
+            set {
+                this["AssocExcelSuffixes"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".pdf")]
+        public string AssocPdfSuffixes {
+            get {
+                return ((string)(this["AssocPdfSuffixes"]));
+            }
+            set {
+                this["AssocPdfSuffixes"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastInvokeUrl {
+            get {
+                return ((string)(this["LastInvokeUrl"]));
+            }
+            set {
+                this["LastInvokeUrl"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MonetWaterLilies")]
+        public string ThemePreset {
+            get {
+                return ((string)(this["ThemePreset"]));
+            }
+            set {
+                this["ThemePreset"] = value;
+            }
+        }
     }
 }
