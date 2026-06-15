@@ -74,6 +74,3 @@
 
 本項目採用 **MIT License**。
 This project is licensed under the **MIT License**.
-
-> *BanG Dream! It's MyGO!!!!!*
-> —— 「要组一辈子Colorful-Palette。」
